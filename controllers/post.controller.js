@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+
 const Post = require("../models/Post");
 
 module.exports.createPost = async (req, res) => {

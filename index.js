@@ -3,6 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 
+// Routes
+const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/post");
 
 const app = express();
@@ -11,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan("tiny"));
 
-// DB
+// Connect to DB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -22,7 +24,8 @@ mongoose
   });
 
 // Routes
-app.use(postRoutes);
+app.use("/api", authRoutes);
+app.use("/api", postRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
