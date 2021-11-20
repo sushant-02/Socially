@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 // Routes
 const authRoutes = require("./routes/auth");
@@ -11,6 +12,7 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(cors());
 app.use(morgan("tiny"));
 
 // Connect to DB
