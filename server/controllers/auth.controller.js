@@ -4,36 +4,46 @@ const jwt = require("jsonwebtoken");
 const expressJWT = require("express-jwt");
 
 const User = require("../models/User");
+const {sendSignupEmail} = require("../utils/sendMail")
+
 
 module.exports.signup = async (req, res) => {
   const errors = validationResult(req);
-
   if (!errors.isEmpty()) {
     // Only send the first error message
     return res.status(400).json({ errors: errors.array()[0] });
   }
 
-  const userExists = await User.findOne({ email: req.body.email });
 
+  // Check if user already exists
+  const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
-    return res.status(400).json({ errors: {msg: "Sorry, this email already exists!"} });
+    return res
+      .status(400)
+      .json({ errors: { msg: "Sorry, this email already exists!" } });
   }
 
+
+  // Create a new user
   try {
     const user = new User(req.body);
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(req.body.password, salt);
     const savedUser = await user.save();
-    const { password, ...createdUser } = savedUser._doc;
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30 days",
-    });
+    sendSignupEmail(savedUser);
 
-    return res.status(201).json({ user: createdUser, token });
+    return res.status(201).json({ msg: 'User created successfully.' });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res
+      .status(500)
+      .json({
+        errors: {
+          msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+          serverMsg: err.message,
+        },
+      });
   }
 };
 
