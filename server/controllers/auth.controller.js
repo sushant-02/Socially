@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const expressJWT = require("express-jwt");
 
 const User = require("../models/User");
 
@@ -8,13 +9,14 @@ module.exports.signup = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    // Only send the first error message
+    return res.status(400).json({ errors: errors.array()[0] });
   }
 
   const userExists = await User.findOne({ email: req.body.email });
 
   if (userExists) {
-    return res.status(400).json({ error: "User already exists." });
+    return res.status(400).json({ errors: {msg: "Sorry, this email already exists!"} });
   }
 
   try {
@@ -39,7 +41,8 @@ module.exports.signin = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    // Only send the first error message
+    return res.status(400).json({ errors: errors.array()[0] });
   }
 
   const user = await User.findOne({ email: req.body.email });
@@ -62,3 +65,9 @@ module.exports.signin = async (req, res) => {
 
   return res.status(200).json({ user: responseUser, token });
 };
+
+module.exports.requireSignin = expressJWT({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+  userProperty: "auth",
+});

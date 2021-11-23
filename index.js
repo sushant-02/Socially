@@ -12,7 +12,7 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cors());
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 
 // Connect to DB
 mongoose
@@ -27,6 +27,11 @@ mongoose
 // Routes
 app.use("/api", authRoutes);
 app.use("/api", postRoutes);
+app.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    return res.status(401).json({ error: "Invalid Token." });
+  }
+});
 
 // Start the server
 const PORT = process.env.PORT || 5000;

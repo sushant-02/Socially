@@ -9,11 +9,19 @@ const postSchema = new Schema(
       minlength: 4,
       maxlength: 150,
     },
-    body: {
+    description: {
       type: String,
       required: [true, "Content is required."],
       minlength: 10,
       maxlength: 2000,
+    },
+    image: {
+      type: Buffer,
+      contentType: String,
+    },
+    postedBy: {
+      type: Schema.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }

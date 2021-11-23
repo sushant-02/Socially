@@ -20,5 +20,5 @@ Some description about socially.
 
 | HTTP Verbs | Endpoints   | Action                            |
 | ---------- | ----------- | --------------------------------- |
-| POST       | /api/signup | To sign up a new user account     |
-| POST       | /api/signin | To login an existing user account |
+| POST       | /api/user/signup | To sign up a new user account     |
+| POST       | /api/user/signin | To login an existing user account |
