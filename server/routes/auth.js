@@ -7,6 +7,7 @@ const userController = require("../controllers/user.controller");
 
 router.post("/user/signup", validator.userSignupValidator, authController.signup);
 router.post("/user/signin", validator.userSigninValidator, authController.signin);
+router.patch("/user/confirm", validator.confirmUserValidator, authController.confirmUser)
 
 router.param("userId", userController.userById);
 

@@ -6,7 +6,7 @@ const userSignupValidator = [
 
   body("email")
     .notEmpty()
-    .withMessage("Email is required")
+    .withMessage("Email is required.")
     .isEmail()
     .withMessage("Email is not valid."),
 
@@ -14,7 +14,7 @@ const userSignupValidator = [
     .notEmpty()
     .withMessage("Password is required.")
     .isLength({ min: 6 })
-    .withMessage("Password should be of length greater than or equal to 6"),
+    .withMessage("Password should be of length greater than or equal to 6."),
 ];
 
 const userSigninValidator = [
@@ -24,11 +24,17 @@ const userSigninValidator = [
     .isEmail()
     .withMessage("Email is not valid."),
 
-  body("password").notEmpty().withMessage("Password is required"),
+  body("password").notEmpty().withMessage("Password is required."),
 ];
 
+const confirmUserValidator = [
+  body("token")
+  .notEmpty()
+  .withMessage("Token not found.")
+]
+
 const createPostValidator = [
-  body("title", "Title is required")
+  body("title")
     .notEmpty()
     .withMessage("Title is required.")
     .isLength({ min: 4, max: 150 })
@@ -45,7 +51,8 @@ const createPostValidator = [
 ];
 
 module.exports = {
-  createPostValidator,
   userSignupValidator,
   userSigninValidator,
+  confirmUserValidator,
+  createPostValidator,
 };

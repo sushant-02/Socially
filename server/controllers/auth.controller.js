@@ -71,6 +71,34 @@ module.exports.signin = async (req, res) => {
   return res.status(200).json({ user: responseUser, token });
 };
 
+module.exports.confirmUser = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    // Only send the first error message
+    return res.status(400).json({ errors: errors.array()[0] });
+  }
+
+  const { token } = req.body;
+  try {
+    const { id: userId } = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { confirmed: true },
+      { returnDocument: "after" }
+    );
+
+    return res.status(200).json({'msg': 'Email confirmed!'})
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
 module.exports.requireSignin = expressJWT({
   secret: process.env.JWT_SECRET,
   algorithms: ["HS256"],
