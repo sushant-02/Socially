@@ -4,8 +4,7 @@ const jwt = require("jsonwebtoken");
 const expressJWT = require("express-jwt");
 
 const User = require("../models/User");
-const {sendSignupEmail} = require("../utils/sendMail")
-
+const { sendSignupEmail } = require("../utils/sendMail");
 
 module.exports.signup = async (req, res) => {
   const errors = validationResult(req);
@@ -14,7 +13,6 @@ module.exports.signup = async (req, res) => {
     return res.status(400).json({ errors: errors.array()[0] });
   }
 
-
   // Check if user already exists
   const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
@@ -22,7 +20,6 @@ module.exports.signup = async (req, res) => {
       .status(400)
       .json({ errors: { msg: "Sorry, this email already exists!" } });
   }
-
 
   // Create a new user
   try {
@@ -34,16 +31,14 @@ module.exports.signup = async (req, res) => {
 
     sendSignupEmail(savedUser);
 
-    return res.status(201).json({ msg: 'User created successfully.' });
+    return res.status(201).json({ msg: "User created successfully." });
   } catch (err) {
-    return res
-      .status(500)
-      .json({
-        errors: {
-          msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
-          serverMsg: err.message,
-        },
-      });
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
   }
 };
 
@@ -58,13 +53,13 @@ module.exports.signin = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    return res.status(401).json({ error: "Invalid Credentials." });
+    return res.status(401).json({ errors: { msg: "Invalid Credentials." } });
   }
 
   const isMatch = await bcrypt.compare(req.body.password, user.password);
 
   if (!isMatch) {
-    return res.status(401).json({ error: "Invalid Credentials." });
+    return res.status(401).json({ errors: { msg: "Invalid Credentials." } });
   }
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
