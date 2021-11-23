@@ -16,9 +16,45 @@ Some description about socially.
 - You can either work with the default MongoDB Atlas or use your locally installed MongoDB.
 - Create an .env file in your project root folder and add your variables. See .env.sample for assistance.
 
-## API Guide
+# API Guide
 
-| HTTP Verbs | Endpoints   | Action                            |
-| ---------- | ----------- | --------------------------------- |
-| POST       | /api/user/signup | To sign up a new user account     |
-| POST       | /api/user/signin | To login an existing user account |
+## Signup
+
+**Request**
+
+``` json
+POST /user/signup
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john.doe@gmail.com",
+    "password": "password"
+}
+```
+
+**Successful Response**
+
+An email is also sent to the user for confirmation.
+
+```json
+HTTP 200 OK
+Content-Type: application/json
+
+{
+   "msg": "User created successfully."
+}
+```
+
+**Failed Response**
+```json
+HTTP 400 Bad Request / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
