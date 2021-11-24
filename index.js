@@ -24,6 +24,7 @@ mongoose
     console.log(`DB connection error: ${err.message}`);
   });
 
+
 // Routes
 app.use("/api", authRoutes);
 app.use("/api", postRoutes);
@@ -32,6 +33,11 @@ app.use((err, req, res, next) => {
     return res.status(401).json({ error: "Invalid Token." });
   }
 });
+
+app.get("/", (req, res) => {
+  res.redirect(`http://${process.env.CLIENT_URL}`);
+})
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
