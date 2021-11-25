@@ -1,7 +1,7 @@
 <template>
   <form @submit="onFormSubmit" class="form mb-6">
     <div class="field">
-      <p class="help is-danger">{{msg}}</p>
+      <p class="help is-danger error-msg">{{ msg }}</p>
       <label class="label has-text-grey">Email</label>
       <div class="control has-icons-left">
         <input
@@ -37,7 +37,11 @@
     </div>
     <div class="field mt-5">
       <p class="control">
-        <button type="submit" :class="{ 'is-loading': loadingUser }" class="button is-large is-fullwidth login-button">
+        <button
+          type="submit"
+          :class="{ 'is-loading': loadingUser }"
+          class="button is-large is-fullwidth login-button"
+        >
           <p class="is-size-5">Sign In</p>
         </button>
       </p>
@@ -54,7 +58,7 @@ export default {
     return {
       formData: { email: "", password: "" },
       loadingUser: false,
-      msg: ""
+      msg: "",
     };
   },
   methods: {
@@ -65,13 +69,21 @@ export default {
       await this.loginUser(this.formData);
       this.msg = this.getErrMsg;
       this.loadingUser = false;
+
+      this.formData.email = "";
+      this.formData.password = "";
     },
   },
-  computed: mapGetters(['getErrMsg'])
+  computed: mapGetters(["getErrMsg"]),
 };
 </script>
 
 <style>
+.error-msg {
+  height: 20px;
+  font-size: 20px !important;
+  margin-bottom: 1rem;
+}
 .login-button {
   background-color: #41d1af !important;
   color: white !important;

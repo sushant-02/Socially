@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomePage';
 import Register from '../views/RegisterPage';
 import Login from '../views/LoginPage';
+import ConfirmEmail from "../components/Auth/ConfirmEmail";
+import VerifyingEmail from "../components/Auth/VerifyingEmail";
 
 const routes = [
   {
@@ -19,6 +21,16 @@ const routes = [
     name: "Register",
     component: Register
   },
+  {
+    path: "/confirm-email",
+    name: "Confirm Email",
+    component: ConfirmEmail
+  },
+  {
+    path: "/confirmation/:token",
+    name: "Email Verification",
+    component: VerifyingEmail
+  }
 ]
 
 const router = createRouter({

@@ -2,13 +2,17 @@ import socially from "../../api/socially";
 import router from '../../router/index';
 
 const state = {
+  authflow: false,
   user: null,
-  errMsg: ""
+  errMsg: "",
+  jwt: ""
 };
 
 const getters = {
+  getAuthflow: () => state.authflow,
   getUser: () => state.user,
-  getErrMsg: () => state.errMsg
+  getErrMsg: () => state.errMsg,
+  getJWT: () => state.jwt
 };
 
 const actions = {
@@ -17,29 +21,43 @@ const actions = {
       const res = await socially.post("/user/signin", loginInfo);
       commit("setUser", res.data);
     } catch (error) {
-
-      commit("setErrMsg", error.response.data.msg);
+      console.log(error.response.data.errors.msg);
+      commit("setErrMsg", error.response.data.errors.msg);
     }
   },
   async registerUser({ commit }, registerInfo) {
     try {
-      const res = await socially.post("/user/signup", registerInfo);
-      commit("setUser", res.data);
+      await socially.post("/user/signup", registerInfo);
+      commit("redirectRegister");
     } catch (error) {
-      commit("setErrMsg", error.response.data.msg);
+      console.log(error.response.data.errors.msg);
+      commit("setErrMsg", error.response.data.errors.msg);
     }
   },
+  changeAuthflowFalse({commit}) {
+    commit("setAuthflowFalse");
+  }
 };
 
 const mutations = {
-  setUser: (state, user) => {
-    state.user = user;
+  setUser: (state, data) => {
+    state.user = data.user;
     state.errMsg = "";
+    state.jwt = data.token;
+    state.authflow = true;
     router.push("/")
   },
   setErrMsg: (state, errmsg) => {
     state.errMsg = errmsg;
     state.user = null;
+    state.jwt = "";
+  },
+  setAuthFlowFalse: ()=> {
+    state.authflow = false;
+  },
+  redirectRegister: () => {
+    state.authflow = true;
+    router.push("/confirm-email")
   }
 };
 

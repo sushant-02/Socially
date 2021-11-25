@@ -1,6 +1,6 @@
 # Socially
 
-Frontend Deployed Link:
+Frontend Deployed Link: [here](https://socially-web.netlify.app)
 
 Backend Deployed Link: [here](https://socially-webapp.herokuapp.com)
 

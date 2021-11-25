@@ -42,7 +42,7 @@ export default {
   width: 95%;
   height: 95%;
   background-color: white;
-  box-shadow: 0 0 50px -35px black;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 10px;
   overflow: auto;
 }

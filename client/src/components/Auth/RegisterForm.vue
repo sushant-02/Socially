@@ -1,7 +1,7 @@
 <template>
   <form @submit="onFormSubmit" class="form">
     <div class="field">
-      <p class="help is-danger">{{ msg }}</p>
+      <p class="help is-danger error-msg">{{ msg }}</p>
 
       <label for="" class="label has-text-grey">Name</label>
       <div class="control has-icons-left">
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "RegisterForm",
@@ -122,10 +122,16 @@ export default {
       this.helpText = "";
     },
   },
+  computed: mapGetters(['getErrMsg'])
 };
 </script>
 
 <style>
+.error-msg {
+  height: 20px;
+  font-size: 20px !important;
+  margin-bottom: 1rem;
+}
 .register-button {
   background-color: #41d1af !important;
   color: white !important;
