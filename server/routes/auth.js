@@ -10,6 +10,6 @@ router.post("/user/signin", validator.userSigninValidator, authController.signin
 router.patch("/user/confirm", validator.confirmUserValidator, authController.confirmUser);
 router.get('/user', authController.requireSignin, authController.getUser);
 
-router.param("userId", userController.userById);
+// router.param("userId", userController.userById);
 
 module.exports = router;
