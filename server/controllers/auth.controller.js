@@ -82,13 +82,27 @@ module.exports.confirmUser = async (req, res) => {
   const { token } = req.body;
   try {
     const { id: userId } = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { confirmed: true },
-      { returnDocument: "after" }
-    );
+    await User.findByIdAndUpdate(userId, { confirmed: true });
 
-    return res.status(200).json({'msg': 'Email confirmed!'})
+    return res.status(200).json({ msg: "Email confirmed!" });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
+module.exports.getUser = async (req, res) => {
+  const { id: userId } = req.auth;
+
+  try {
+    const user = await User.findById(userId);
+    const {password, ...responseUser} = user._doc;
+    
+    return res.status(200).json({user: responseUser});
   } catch (err) {
     return res.status(500).json({
       errors: {

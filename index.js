@@ -30,7 +30,7 @@ app.use("/api", authRoutes);
 app.use("/api", postRoutes);
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
-    return res.status(401).json({ error: "Invalid Token." });
+    return res.status(401).json({ errors: {"msg": "Invalid Token or Token not sent!"} });
   }
 });
 
