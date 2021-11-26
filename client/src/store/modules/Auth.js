@@ -34,9 +34,6 @@ const actions = {
       commit("setErrMsg", error.response.data.errors.msg);
     }
   },
-  changeAuthflowFalse({commit}) {
-    commit("setAuthflowFalse");
-  }
 };
 
 const mutations = {
@@ -45,15 +42,17 @@ const mutations = {
     state.errMsg = "";
     state.jwt = data.token;
     state.authflow = true;
-    router.push("/")
+
+    if(data.user.confirmed === false) {
+      router.push("/confirm-email")
+    } else {
+      router.push("/")
+    }
   },
   setErrMsg: (state, errmsg) => {
     state.errMsg = errmsg;
     state.user = null;
     state.jwt = "";
-  },
-  setAuthFlowFalse: ()=> {
-    state.authflow = false;
   },
   redirectRegister: () => {
     state.authflow = true;
