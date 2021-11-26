@@ -33,6 +33,8 @@ const confirmUserValidator = [
   .withMessage("Token not found.")
 ]
 
+// POST VALIDATIONS
+
 const createPostValidator = [
   body("title")
     .notEmpty()
