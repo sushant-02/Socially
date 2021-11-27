@@ -40,7 +40,8 @@ const mutations = {
     state.errMsg = "";
     state.authflow = true;
     
-    window.localStorage.setItem("JWT", data.token);
+    if (data.token !== undefined)
+      window.localStorage.setItem("JWT", data.token);
 
     if(data.user.confirmed === false) {
       router.push("/confirm-email")
