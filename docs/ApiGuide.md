@@ -1,4 +1,6 @@
-# API Guide
+# **API GUIDE**
+
+# Authentication and Authorization
 
 ## Signup
 
@@ -158,6 +160,119 @@ Content-Type: application/json
 
 {
   "msg": "Email confirmed!"
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
+
+# Posts
+
+## Get a Post
+
+**Request**
+
+```json
+GET api/posts
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+```
+
+**Successful Response**
+
+```json
+HTTP 201 OK
+Content-Type: application/json
+
+{
+  "posts": [
+    {
+      "_id": "61a232b9689f0796a4a91f41",
+      "title": "First Post",
+      "description": "This is the first post.",
+      "imageURL": "Image Url",
+      "postedBy": "61a22c54c58e697583e4196a",
+      "createdAt": "2021-11-27T13:29:29.558Z",
+      "updatedAt": "2021-11-27T13:29:29.558Z",
+      "__v": 0
+    },
+    {
+      "_id": "61a23380689f0796a4a91f43",
+      "title": "Second Post",
+      "description": "This is the second post.",
+      "imageURL": "Image Url",
+      "postedBy": "61a22c54c58e697583e4196a",
+      "createdAt": "2021-11-27T13:32:48.535Z",
+      "updatedAt": "2021-11-27T13:32:48.535Z",
+      "__v": 0
+    }
+  ]
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
+
+## Create a Post
+
+**Request**
+
+```json
+POST api/post/new
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+{
+    "title": "Post Title",
+    "description": "Post Description",
+    "imageURL": "Post Image URL"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 201 OK
+Content-Type: application/json
+
+{
+  "post": {
+    "title": "Post Title",
+    "description": "Post Description",
+    "imageURL": "Post Image URL",
+    "postedBy": "61a22c54c58e697583e4196a",
+    "_id": "61a23380689f0796a4a91f43",
+    "createdAt": "2021-11-27T13:32:48.535Z",
+    "updatedAt": "2021-11-27T13:32:48.535Z",
+    "__v": 0
+  }
 }
 ```
 

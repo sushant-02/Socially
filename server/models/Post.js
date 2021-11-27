@@ -5,19 +5,18 @@ const postSchema = new Schema(
   {
     title: {
       type: String,
-      required: [true, "Title is required."],
+      required: true,
       minlength: 4,
       maxlength: 150,
     },
     description: {
       type: String,
-      required: [true, "Content is required."],
+      required: true,
       minlength: 10,
       maxlength: 2000,
     },
-    image: {
-      type: Buffer,
-      contentType: String,
+    imageURL: {
+      type: String,
     },
     postedBy: {
       type: Schema.ObjectId,

@@ -1,35 +1,43 @@
-const fs = require("fs");
-const formidable = require("formidable");
 const { validationResult } = require("express-validator");
 
 const Post = require("../models/Post");
 
-module.exports.createPost = (req, res) => {
+module.exports.getAllPosts = async (req, res) => {
+  const { id: userId } = req.auth;
+
+  try {
+    const posts = await Post.find({ postedBy: userId });
+    return res.status(200).send({ posts });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
+module.exports.createPost = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ errors: errors.array()[0] });
   }
 
+  const { id: userId } = req.auth;
+
   try {
-    let form = new formidable.IncomingForm();
-    form.keepExtensions = true;
-    form.parse(req, async (err, fields, files) => {
-      if (err)
-        return res.status(400).json({ error: "Image could not be uploaded" });
+    const post = new Post({ ...req.body, postedBy: userId });
+    const savedPost = await post.save();
 
-      const post = new Post(fields);
-      post.postedBy = req.profile;
-
-      if (files.image) {
-        post.image.data = fs.readFileSync(files.image.path);
-        post.image.contentType = files.image.type;
-      }
-
-      const savedPost = await post.save();
-      return res.status(200).json({ post: savedPost });
-    });
+    return res.status(201).json({ post: savedPost });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
   }
 };

@@ -53,7 +53,13 @@ module.exports.signin = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    return res.status(401).json({ errors: { msg: "Invalid Credentials." } });
+    return res
+      .status(401)
+      .json({
+        errors: {
+          msg: `Sorry, we could not find a user with the email ${req.body.email}`,
+        },
+      });
   }
 
   const isMatch = await bcrypt.compare(req.body.password, user.password);
@@ -67,6 +73,11 @@ module.exports.signin = async (req, res) => {
   });
 
   const { password, ...responseUser } = user._doc;
+
+  // If user is not confirmed, then only send user details
+  if (!responseUser.confirmed) {
+    return res.status(200).json({user: responseUser});
+  }
 
   return res.status(200).json({ user: responseUser, token });
 };
@@ -100,9 +111,9 @@ module.exports.getUser = async (req, res) => {
 
   try {
     const user = await User.findById(userId);
-    const {password, ...responseUser} = user._doc;
-    
-    return res.status(200).json({user: responseUser});
+    const { password, ...responseUser } = user._doc;
+
+    return res.status(200).json({ user: responseUser });
   } catch (err) {
     return res.status(500).json({
       errors: {
