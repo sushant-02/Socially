@@ -5,14 +5,12 @@ const state = {
   authflow: false,
   user: null,
   errMsg: "",
-  jwt: ""
 };
 
 const getters = {
   getAuthflow: () => state.authflow,
   getUser: () => state.user,
   getErrMsg: () => state.errMsg,
-  getJWT: () => state.jwt
 };
 
 const actions = {
@@ -40,8 +38,9 @@ const mutations = {
   setUser: (state, data) => {
     state.user = data.user;
     state.errMsg = "";
-    state.jwt = data.token;
     state.authflow = true;
+    
+    window.localStorage.setItem("JWT", data.token);
 
     if(data.user.confirmed === false) {
       router.push("/confirm-email")
@@ -52,7 +51,6 @@ const mutations = {
   setErrMsg: (state, errmsg) => {
     state.errMsg = errmsg;
     state.user = null;
-    state.jwt = "";
   },
   redirectRegister: () => {
     state.authflow = true;

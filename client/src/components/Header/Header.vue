@@ -24,6 +24,9 @@
         <router-link to="/profile" class="icon is-medium nav-item">
           <FontAwesomeIcon icon="user-circle" class="fas fa-lg" />
         </router-link>
+        <a @click="logout" class="icon is-medium nav-item">
+          <FontAwesomeIcon icon="sign-out-alt" class="fas fa-lg" />
+        </a>
       </div>
 
       <div class="nav-items header-dropdown">
@@ -67,6 +70,13 @@
               </span>
               <p class="is-size-6">Profile</p>
             </router-link>
+
+            <a @click="logout" class="nav-item-dd">
+              <span class="icon is-medium mr-4">
+                <FontAwesomeIcon icon="sign-out-alt" class="fas fa-lg" />
+              </span>
+              <p class="is-size-6">Logout</p>
+            </a>
           </div>
         </template>
       </div>
@@ -84,6 +94,10 @@ export default {
   methods: {
     toggleDropdown() {
       this.isDropwownActive = !this.isDropwownActive;
+    },
+    logout() {
+      window.localStorage.removeItem("JWT");
+      this.$router.push("/login");
     },
   },
 };
@@ -140,7 +154,7 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background-color: #EDEDED;
+  background-color: #ededed;
 }
 
 .nav-item-dd {
@@ -148,7 +162,7 @@ export default {
   color: black;
   display: flex;
   align-items: center;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 @media only screen and (max-width: 750px) {

@@ -3,22 +3,19 @@
 </template>
 
 <script>
-import Login from '../components/Auth/Login.vue';
-import { mapGetters } from 'vuex';
+import Login from "../components/Auth/Login.vue";
 
 export default {
   name: "LoginPage",
   components: {
-    Login
+    Login,
   },
-  computed: mapGetters(['getUser']),
   created() {
-    if(this.getUser !== null) {
+    if (window.localStorage.getItem("JWT")) {
       this.$router.push("/");
     }
-  }
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

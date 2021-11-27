@@ -9,20 +9,16 @@
 
 <script>
 import Header from "../components/Header/Header.vue";
-import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: { Header },
   name: "HomePage",
   methods: {
-    ...mapActions(["fetchPosts"]),
   },
-  computed: mapGetters(["getUser"]),
   created() {
-    if(this.getUser === null) {
+    if(!window.localStorage.getItem("JWT")) {
       this.$router.push("/login");
-    } else
-      this.fetchPosts(this.getUser._id)
+    }
   }
 };
 </script>
