@@ -85,7 +85,6 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { useToast } from "vue-toastification";
 
 export default {
   name: "RegisterForm",
@@ -117,17 +116,12 @@ export default {
       await this.registerUser(this.formData);
 
       this.loadingUser = false;
-      this.showToast();
 
       this.formData.name = "";
       this.formData.email = "";
       this.formData.password = "";
       this.confirmPassword = "";
       this.helpText = "";
-    },
-    showToast() {
-      const toast = useToast();
-      toast.error(this.getErrMsg);
     },
   },
   computed: mapGetters(["getErrMsg"]),

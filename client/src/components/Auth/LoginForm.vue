@@ -50,7 +50,6 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { useToast } from "vue-toastification";
 
 export default {
   name: "LoginForm",
@@ -67,17 +66,12 @@ export default {
 
       this.loadingUser = true;
       await this.loginUser(this.formData);
-
+      console.log("working");
       this.loadingUser = false;
-      this.showToast();
 
       this.formData.email = "";
       this.formData.password = "";
     },
-    showToast() {
-      const toast = useToast();
-      toast.error(this.getErrMsg);
-    }
   },
   computed: mapGetters(["getErrMsg"]),
 };

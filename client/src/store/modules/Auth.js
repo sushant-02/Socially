@@ -1,5 +1,8 @@
+import { useToast } from "vue-toastification";
 import socially from "../../api/socially";
 import router from '../../router/index';
+
+const toast = useToast();
 
 const state = {
   authflow: false,
@@ -52,6 +55,8 @@ const mutations = {
   setErrMsg: (state, errmsg) => {
     state.errMsg = errmsg;
     state.user = null;
+
+    toast.error(errmsg);
   },
   redirectRegister: () => {
     state.authflow = true;
