@@ -1,8 +1,6 @@
 <template>
   <form @submit="onFormSubmit" class="form">
     <div class="field">
-      <p class="help is-danger error-msg">{{ msg }}</p>
-
       <label for="" class="label has-text-grey">Name</label>
       <div class="control has-icons-left">
         <input
@@ -69,11 +67,15 @@
           <FontAwesomeIcon icon="key" />
         </span>
       </div>
-      <p class="help is-danger">{{ helpText }}</p>
+      <p class="help is-danger" style="height: 15px">{{ helpText }}</p>
     </div>
     <div class="field mt-5">
       <p class="control">
-        <button type="submit" :class="{ 'is-loading': loadingUser }" class="button is-large is-fullwidth register-button">
+        <button
+          type="submit"
+          :class="{ 'is-loading': loadingUser }"
+          class="button is-large is-fullwidth register-button"
+        >
           <p class="is-size-5">Create an account</p>
         </button>
       </p>
@@ -83,6 +85,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { useToast } from "vue-toastification";
 
 export default {
   name: "RegisterForm",
@@ -96,24 +99,25 @@ export default {
       confirmPassword: "",
       helpText: "",
       loadingUser: false,
-      msg: "",
     };
   },
   methods: {
     ...mapActions(["registerUser"]),
     async onFormSubmit(e) {
       e.preventDefault();
+
       if (this.formData.password !== this.confirmPassword) {
         this.helpText = "Passwords doesn't match";
         this.formData.password = "";
         this.confirmPassword = "";
         return;
       }
+
       this.loadingUser = true;
       await this.registerUser(this.formData);
 
-      this.msg = this.getErrMsg;
       this.loadingUser = false;
+      this.showToast();
 
       this.formData.name = "";
       this.formData.email = "";
@@ -121,17 +125,16 @@ export default {
       this.confirmPassword = "";
       this.helpText = "";
     },
+    showToast() {
+      const toast = useToast();
+      toast.error(this.getErrMsg);
+    },
   },
-  computed: mapGetters(['getErrMsg'])
+  computed: mapGetters(["getErrMsg"]),
 };
 </script>
 
 <style>
-.error-msg {
-  height: 20px;
-  font-size: 20px !important;
-  margin-bottom: 1rem;
-}
 .register-button {
   background-color: #41d1af !important;
   color: white !important;
