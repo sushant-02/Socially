@@ -36,3 +36,23 @@ ${url}`
 
   sendMail(mailOptions);
 };
+
+module.exports.sendResetPasswordEmail = (user) => {
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "30 days",
+  });
+
+  const url = `http://${process.env.CLIENT_URL}/reset-password/${token}`;
+
+  const mailOptions = {
+      from: process.env.EMAIL_HOST_USER,
+      to: user.email,
+      subject: `Reset Password - ${user.name}`,
+      text: `Hi ${user.name}, if you've lost your password or wish to reset it, 
+use the link below to get started: 
+
+${url}`
+  }
+
+  sendMail(mailOptions);
+};

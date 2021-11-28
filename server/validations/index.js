@@ -33,6 +33,24 @@ const confirmUserValidator = [
   .withMessage("Token not found.")
 ]
 
+const resetPasswordFormValidator = [
+  body("email")
+    .notEmpty()
+    .withMessage("Email is required.")
+    .isEmail()
+    .withMessage("Email is not valid."),
+]
+
+const resetPasswordValidator = [
+  body("token")
+  .notEmpty()
+  .withMessage("Token not found."),
+
+  body("newPassword")
+  .notEmpty()
+  .withMessage("New password is required")
+]
+
 // POST VALIDATIONS
 
 const createPostValidator = [
@@ -56,5 +74,7 @@ module.exports = {
   userSignupValidator,
   userSigninValidator,
   confirmUserValidator,
+  resetPasswordFormValidator,
+  resetPasswordValidator,
   createPostValidator,
 };
