@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "RegisterForm",
@@ -124,11 +124,10 @@ export default {
       this.helpText = "";
     },
   },
-  computed: mapGetters(["getErrMsg"]),
 };
 </script>
 
-<style>
+<style scoped>
 .register-button {
   background-color: #41d1af !important;
   color: white !important;

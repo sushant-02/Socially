@@ -7,13 +7,11 @@ const toast = useToast();
 const state = {
   authflow: false,
   user: null,
-  errMsg: "",
 };
 
 const getters = {
   getAuthflow: () => state.authflow,
   getUser: () => state.user,
-  getErrMsg: () => state.errMsg,
 };
 
 const actions = {
@@ -23,7 +21,7 @@ const actions = {
       commit("setUser", res.data);
     } catch (error) {
       console.log(error.response.data.errors.msg);
-      commit("setErrMsg", error.response.data.errors.msg);
+      commit("showErrMsg", error.response.data.errors.msg);
     }
   },
   async registerUser({ commit }, registerInfo) {
@@ -32,7 +30,7 @@ const actions = {
       commit("redirectRegister");
     } catch (error) {
       console.log(error.response.data.errors.msg);
-      commit("setErrMsg", error.response.data.errors.msg);
+      commit("showErrMsg", error.response.data.errors.msg);
     }
   },
 };
@@ -40,7 +38,6 @@ const actions = {
 const mutations = {
   setUser: (state, data) => {
     state.user = data.user;
-    state.errMsg = "";
     state.authflow = true;
     
     if (data.token !== undefined)
@@ -52,8 +49,7 @@ const mutations = {
       router.push("/")
     }
   },
-  setErrMsg: (state, errmsg) => {
-    state.errMsg = errmsg;
+  showErrMsg: (state, errmsg) => {
     state.user = null;
 
     toast.error(errmsg);

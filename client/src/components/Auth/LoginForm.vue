@@ -45,11 +45,12 @@
         </button>
       </p>
     </div>
+    <router-link to="/reset-password" class="login-link">Forget password?</router-link>
   </form>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "LoginForm",
@@ -66,18 +67,16 @@ export default {
 
       this.loadingUser = true;
       await this.loginUser(this.formData);
-      console.log("working");
       this.loadingUser = false;
 
       this.formData.email = "";
       this.formData.password = "";
     },
   },
-  computed: mapGetters(["getErrMsg"]),
 };
 </script>
 
-<style>
+<style scoped>
 .login-button {
   background-color: #41d1af !important;
   color: white !important;

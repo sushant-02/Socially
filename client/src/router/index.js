@@ -4,6 +4,7 @@ import Register from '../views/RegisterPage';
 import Login from '../views/LoginPage';
 import ConfirmEmail from "../components/Auth/ConfirmEmail";
 import VerifyingEmail from "../components/Auth/VerifyingEmail";
+import ResetPassword from "../components/Auth/ResetPassword";
 
 const routes = [
   {
@@ -30,7 +31,17 @@ const routes = [
     path: "/confirmation/:token",
     name: "Email Verification",
     component: VerifyingEmail
-  }
+  },
+  {
+    path: "/reset-password",
+    name: "Reset password email",
+    component: ResetPassword
+  },
+  {
+    path: "/reset-password/:token",
+    name: "Reset password new",
+    component: ResetPassword
+  },
 ]
 
 const router = createRouter({
