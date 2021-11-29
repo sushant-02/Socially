@@ -247,7 +247,7 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 
 # Posts
 
-## Get a Post
+## Get all Posts
 
 **Request**
 
