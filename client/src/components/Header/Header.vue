@@ -6,12 +6,14 @@
       </h1>
     </router-link>
 
-    <div class="nav-center control has-icons-left">
-      <input class="input" type="text" placeholder="Search here" />
-      <span class="icon is-small is-left">
-        <FontAwesomeIcon icon="search" />
-      </span>
-    </div>
+    <template v-if="this.$route.path === '/'">
+      <div class="nav-center control has-icons-left">
+        <input class="input" type="text" placeholder="Search here" />
+        <span class="icon is-small is-left">
+          <FontAwesomeIcon icon="search" />
+        </span>
+      </div>
+    </template>
 
     <div class="nav-menu">
       <div class="nav-items header-desktop">
