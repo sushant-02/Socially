@@ -3,6 +3,7 @@ import HomePage from '../views/HomePage';
 import Register from '../views/RegisterPage';
 import Login from '../views/LoginPage';
 import AddPost from "../components/AddPost/AddPost";
+import UserProfile from "../components/Profile/UserProfile";
 import ConfirmEmail from "../components/Auth/ConfirmEmail";
 import VerifyingEmail from "../components/Auth/VerifyingEmail";
 import ResetPassword from "../components/Auth/ResetPassword";
@@ -17,6 +18,11 @@ const routes = [
         path: "/add-post",
         name: "Add Post",
         component: AddPost
+      },
+      {
+        path: "/profile",
+        name: "User Profile",
+        component: UserProfile
       }
     ]
   },

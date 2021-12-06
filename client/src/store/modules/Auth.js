@@ -1,6 +1,6 @@
 import { useToast } from "vue-toastification";
 import socially from "../../api/socially";
-import router from '../../router/index';
+import router from "../../router/index";
 
 const toast = useToast();
 
@@ -33,21 +33,36 @@ const actions = {
       commit("showErrMsg", error.response.data.errors.msg);
     }
   },
+  async fetchUser({ commit }) {
+    try {
+      const res = await socially.get("/user", {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
+        },
+      });
+      commit("updateUser", res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 const mutations = {
   setUser: (state, data) => {
     state.user = data.user;
     state.authflow = true;
-    
+
     if (data.token !== undefined)
       window.localStorage.setItem("JWT", data.token);
 
-    if(data.user.confirmed === false) {
-      router.push("/confirm-email")
+    if (data.user.confirmed === false) {
+      router.push("/confirm-email");
     } else {
-      router.push("/")
+      router.push("/");
     }
+  },
+  updateUser: (state, user) => {
+    state.user = user;
   },
   showErrMsg: (state, errmsg) => {
     state.user = null;
@@ -56,8 +71,8 @@ const mutations = {
   },
   redirectRegister: () => {
     state.authflow = true;
-    router.push("/confirm-email")
-  }
+    router.push("/confirm-email");
+  },
 };
 
 export default {

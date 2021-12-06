@@ -1,7 +1,7 @@
 <template>
   <section class="column container-left">
     <div class="header">
-      <h1 class="title is-size-2-desktop is-size-3-touch">
+      <h1 class="title is-size-2-desktop is-size-3-touch is-unselectable">
         <span class="title-text-ly">Social</span>ly.
       </h1>
       <p class="content has-text-grey is-size-6">

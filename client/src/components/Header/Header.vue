@@ -1,7 +1,7 @@
 <template>
   <div class="nav-container custom-center">
     <router-link to="/" class="nav-brand">
-      <h1 class="title is-size-3-desktop is-size-4-touch">
+      <h1 class="title is-size-3-desktop is-size-4-touch is-unselectable">
         <span class="socially-ly">Social</span>ly.
       </h1>
     </router-link>
