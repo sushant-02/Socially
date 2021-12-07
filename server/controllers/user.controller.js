@@ -100,3 +100,20 @@ module.exports.updateUser = async (req, res) => {
     });
   }
 };
+
+
+module.exports.deleteUser = async (req, res) => {
+  const { id: userId } = req.auth;
+
+  try {
+    await User.findByIdAndDelete(userId);
+    return res.status(200).json({msg: 'User successfully deleted.'})
+  } catch(err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+}

@@ -13,6 +13,7 @@ router.patch("/user/reset-password", validator.resetPasswordValidator, authContr
 router.get('/user', authController.requireSignin, userController.getUser);
 router.get('/user/:userId', authController.requireSignin, userController.getUserById);
 router.patch('/user/:userId', authController.requireSignin, userController.updateUser);
+router.delete('/user/:userId', authController.requireSignin, userController.deleteUser);
 
 // if URL parameter has userId, then first userById is executed and it attaches user to the req object
 router.param("userId", userController.userById);

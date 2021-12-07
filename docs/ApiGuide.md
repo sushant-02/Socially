@@ -337,6 +337,42 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 }
 ```
 
+## Delete User
+
+**Request**
+```json
+DELETE api/user/:userId
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 200 OK
+Content-Type: application/json
+Updated Value will be returned
+{
+  "msg": "User deleted successfully."
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
+
 
 # Posts
 
