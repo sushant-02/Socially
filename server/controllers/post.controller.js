@@ -21,7 +21,7 @@ module.exports.getAllPosts = async (req, res) => {
 module.exports.getPost = async (req, res) => {
   try {
     const post = req.post;
-    return res.status(200).json({post});
+    return res.status(200).json({ post });
   } catch (err) {
     return res.status(500).json({
       errors: {
@@ -117,6 +117,50 @@ module.exports.updatePost = async (req, res, next) => {
     );
 
     return res.status(200).json({ post: updatedPost });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
+module.exports.likePost = async (req, res) => {
+  const { id: userId } = req.auth;
+  const { postId } = req.body;
+
+  try {
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { $push: { likes: userId } },
+      { returnDocument: "after" }
+    );
+
+    return res.status(200).json({ post });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
+module.exports.unlikePost = async (req, res) => {
+  const { id: userId } = req.auth;
+  const { postId } = req.body;
+
+  try {
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { $pull: { likes: userId } },
+      { returnDocument: "after" }
+    );
+
+    return res.status(200).json({ post });
   } catch (err) {
     return res.status(500).json({
       errors: {

@@ -40,6 +40,20 @@ router.patch(
   postController.updatePost
 );
 
+// Like a Post
+router.patch(
+  "/post/like",
+  authController.requireSignin,
+  postController.likePost
+);
+
+// Unlike a Post
+router.patch(
+  "/post/unlike",
+  authController.requireSignin,
+  postController.unlikePost
+);
+
 // if URL parameter has postId, then attach post to the req object
 router.param("postId", postController.postById);
 
