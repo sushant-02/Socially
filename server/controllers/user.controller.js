@@ -25,8 +25,9 @@ module.exports.userById = async (req, res, next, id) => {
 };
 
 module.exports.hasAuthorization = (req, res, next) => {
+  const sameIds = String(req.profile._id) === String(req.auth.id);
   const authorized =
-    req.profile && req.auth && req.profile._id === req.auth._id;
+    req.profile && req.auth && sameIds;
 
   if (!authorized) {
     return res.status(403).json({

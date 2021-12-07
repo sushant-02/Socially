@@ -10,7 +10,11 @@ const router = express.Router();
 router.get("/posts", authController.requireSignin, postController.getAllPosts);
 
 // Get a Post
-router.get("/post/:postId", authController.requireSignin, postController.getPost);
+router.get(
+  "/post/:postId",
+  authController.requireSignin,
+  postController.getPost
+);
 
 // Create a new post
 router.post(
@@ -21,10 +25,14 @@ router.post(
 );
 
 // Delete a Post
-// router.delete('/post/:postId', authController.requireSignin, postController.hasUserCreatedPost)
-
+router.delete(
+  "/post/:postId",
+  authController.requireSignin,
+  postController.hasUserCreatedPost,
+  postController.deletePost
+);
 
 // if URL parameter has postId, then attach post to the req object
-router.param('postId', postController.postById)
+router.param("postId", postController.postById);
 
 module.exports = router;

@@ -2,7 +2,6 @@ const { validationResult } = require("express-validator");
 
 const Post = require("../models/Post");
 
-
 module.exports.getAllPosts = async (req, res) => {
   const { id: userId } = req.auth;
 
@@ -20,10 +19,8 @@ module.exports.getAllPosts = async (req, res) => {
 };
 
 module.exports.getPost = async (req, res) => {
-  const postId = req.params.id;
-
   try {
-    const post = await Post.findById(postId);
+    const post = req.post
     return res.status(200).json(post);
   } catch (err) {
     return res.status(500).json({
@@ -59,12 +56,11 @@ module.exports.createPost = async (req, res) => {
   }
 };
 
-
 module.exports.postById = async (req, res, next, postId) => {
   try {
     const post = await Post.findById(postId);
     req.post = post;
-    
+
     next();
   } catch (err) {
     return res.status(500).json({
@@ -74,10 +70,39 @@ module.exports.postById = async (req, res, next, postId) => {
       },
     });
   }
-}
+};
 
 // has logged in user created the post which is going to be deleted.
+module.exports.hasUserCreatedPost = (req, res, next) => {
+  const sameIds = String(req.post.postedBy) === String(req.auth.id)
+  const hasLoggedInUserCreatedPost =
+    req.post && req.auth && sameIds;
 
-// module.exports.hasUserCreatedPost = (req, res, next) => {
-//   const userCreatedPost = 
-// }
+  if (!hasLoggedInUserCreatedPost) {
+    return res.status(403).json({
+      errors: {
+        msg: "User is not authorized to perform this action.",
+      },
+    });
+  }
+
+  next();
+};
+
+module.exports.deletePost = async (req, res) => {
+  const post = req.post;
+
+  try {
+    await Post.findByIdAndDelete(post._id);
+    return res.status(200).json({
+      msg: "Post deleted successfully",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
