@@ -138,6 +138,52 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 }
 ```
 
+## Get User by userId
+
+**Request**
+
+```json
+GET api/user/:userId
+Accept: application/json
+Content-Type: application/json
+
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 200 OK
+Content-Type: application/json
+
+{
+  "user": {
+    "_id": "619d155d12c742eb54148799",
+    "name": "John Doe",
+    "email": "john.doe@email.com",
+    "confirmed": false,
+    "createdAt": "2021-11-23T16:22:53.187Z",
+    "updatedAt": "2021-11-23T16:22:53.187Z",
+    "__v": 0
+  }
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
+
 ## User/Email Confirmation
 
 **Request**
@@ -243,6 +289,53 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 }
 ```
 
+## Update User
+
+**Request**
+```json
+PATCH api/user/:userId
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+{
+  "fields": "Updated field value"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 201 OK
+Content-Type: application/json
+Updated Value will be returned
+{
+  "user": {
+    "_id": "619d155d12c742eb54148799",
+    "name": "John Doe",
+    "email": "john.doe@email.com",
+    "confirmed": false,
+    "createdAt": "2021-11-23T16:22:53.187Z",
+    "updatedAt": "2021-11-23T16:22:53.187Z",
+    "__v": 0
+  }
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
 
 
 # Posts
@@ -303,6 +396,51 @@ HTTP 401 Unauthorized / 500 Internal Server Error
         "msg": "An error message to show to client",
         "serverMsg": "This is an optional response, received only when 500 error occurs."
     }
+}
+```
+
+## Get a Post
+
+**Request**
+
+```json
+GET api/posts/:postId
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+```
+
+**Successful Response**
+
+```json
+HTTP 201 OK
+Content-Type: application/json
+
+{
+  "_id": "61a232b9689f0796a4a91f41",
+  "title": "First Post",
+  "description": "This is the first post.",
+  "imageURL": "Image Url",
+  "postedBy": "61a22c54c58e697583e4196a",
+  "createdAt": "2021-11-27T13:29:29.558Z",
+  "updatedAt": "2021-11-27T13:29:29.558Z",
+  "__v": 0
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+  "errors": {
+      "msg": "An error message to show to client",
+      "serverMsg": "This is an optional response, received only when 500 error occurs."
+  }
 }
 ```
 

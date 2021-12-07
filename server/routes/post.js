@@ -7,11 +7,10 @@ const authController = require("../controllers/auth.controller");
 const router = express.Router();
 
 // Get all Posts
-router.get(
-  "/posts",
-  authController.requireSignin,
-  postController.getAllPosts
-)
+router.get("/posts", authController.requireSignin, postController.getAllPosts);
+
+// Get a Post
+router.get("/post/:postId", authController.requireSignin, postController.getPost);
 
 // Create a new post
 router.post(
@@ -20,5 +19,12 @@ router.post(
   validator.createPostValidator,
   postController.createPost
 );
+
+// Delete a Post
+// router.delete('/post/:postId', authController.requireSignin, postController.hasUserCreatedPost)
+
+
+// if URL parameter has postId, then attach post to the req object
+router.param('postId', postController.postById)
 
 module.exports = router;
