@@ -373,6 +373,112 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 }
 ```
 
+## Follow a User
+
+**Request**
+
+```json
+PATCH api/user/follow
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+{
+  "followId": "61a22c54c58e697583e4196a - userId for Mark Robert"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 200 OK
+Content-Type: application/json
+
+{
+  "user": {
+    "_id": "61afa14fd0a8d357a6173220",
+    "name": "John Doe",
+    "email": "john.doe@gmail.com",
+    "confirmed": true,
+    "following": [
+      {
+        "_id": "61af9c44d0a8d357a6173210",
+        "name": "Mark Robert"
+      }
+    ],
+    "followers": [],
+    "createdAt": "2021-12-07T18:00:47.945Z",
+    "updatedAt": "2021-12-07T18:55:02.987Z",
+    "__v": 0
+  }
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 400 Bad Request / 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
+
+## Unfollow a User
+
+**Request**
+
+```json
+PATCH api/user/follow
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+{
+  "unfollowId": "61a22c54c58e697583e4196a - userId for Mark Robert"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 200 OK
+Content-Type: application/json
+
+{
+  "user": {
+    "_id": "61afa14fd0a8d357a6173220",
+    "name": "John Doe",
+    "email": "john.doe@gmail.com",
+    "confirmed": true,
+    "following": [],
+    "followers": [],
+    "createdAt": "2021-12-07T18:00:47.945Z",
+    "updatedAt": "2021-12-07T18:55:02.987Z",
+    "__v": 0
+  }
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 400 Bad Request / 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
 
 # Posts
 
@@ -393,7 +499,7 @@ headers: {
 **Successful Response**
 
 ```json
-HTTP 201 OK
+HTTP 200 OK
 Content-Type: application/json
 
 {

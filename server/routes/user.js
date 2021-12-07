@@ -7,10 +7,27 @@ const userController = require("../controllers/user.controller");
 // Get signedIn User
 router.get("/user", authController.requireSignin, userController.getUser);
 
+// Follow a User
+router.patch(
+  "/user/follow",
+  authController.requireSignin,
+  userController.addFollower,
+  userController.addFollowing
+);
+
+// Unfollow a User
+router.patch(
+    "/user/unfollow",
+    authController.requireSignin,
+    userController.removeFollower,
+    userController.removeFollowing
+);
+
 // Get any user by ID
 router.get(
   "/user/:userId",
   authController.requireSignin,
+  userController.userById,
   userController.getUserById
 );
 
@@ -18,6 +35,7 @@ router.get(
 router.patch(
   "/user/:userId",
   authController.requireSignin,
+  userController.userById,
   userController.updateUser
 );
 
@@ -25,26 +43,11 @@ router.patch(
 router.delete(
   "/user/:userId",
   authController.requireSignin,
+  userController.userById,
   userController.deleteUser
 );
 
-// Follow a User
-router.patch(
-  "/user/follow",
-  authController.requireSignin,
-  userController.addFollowing,
-  userController.addFollower
-);
-
-// Unfollow a User
-router.patch(
-    "/user/unfollow",
-    authController.requireSignin,
-    userController.removeFollowing,
-    userController.removeFollower
-);
-
-// if URL parameter has userId, then first userById is executed and it attaches user to the req object
-router.param("userId", userController.userById);
+// // if URL parameter has userId, then first userById is executed and it attaches user to the req object
+// router.param("userId", userController.userById);
 
 module.exports = router;

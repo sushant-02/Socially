@@ -1,8 +1,10 @@
 const User = require("../models/User");
 
-module.exports.userById = async (req, res, next, id) => {
+module.exports.userById = async (req, res, next) => {
+  const { userId } = req.params;
+
   try {
-    const user = await User.findById(id)
+    const user = await User.findById(userId)
       .populate("following", "_id name")
       .populate("followers", "_id name");
 
@@ -25,7 +27,7 @@ module.exports.userById = async (req, res, next, id) => {
         },
       });
     }
-    
+
     return res.status(500).json({
       errors: {
         msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
@@ -127,14 +129,14 @@ module.exports.deleteUser = async (req, res) => {
   }
 };
 
-module.exports.addFollowing = async (req, res, next) => {
+module.exports.addFollower = async (req, res, next) => {
   const { id: userId } = req.auth;
   const { followId } = req.body;
 
   try {
     await User.findByIdAndUpdate(
-      userId,
-      { $push: { following: followId } },
+      followId,
+      { $push: { followers: userId } },
       { returnDocument: "after" }
     );
 
@@ -149,14 +151,14 @@ module.exports.addFollowing = async (req, res, next) => {
   }
 };
 
-module.exports.addFollower = async (req, res) => {
+module.exports.addFollowing = async (req, res) => {
   const { id: userId } = req.auth;
   const { followId } = req.body;
 
   try {
     const user = await User.findByIdAndUpdate(
-      followId,
-      { $push: { followers: userId } },
+      userId,
+      { $push: { following: followId } },
       { returnDocument: "after" }
     )
       .populate("following", "_id name")
@@ -175,14 +177,14 @@ module.exports.addFollower = async (req, res) => {
   }
 };
 
-module.exports.removeFollowing = async (req, res, next) => {
+module.exports.removeFollower = async (req, res, next) => {
   const { id: userId } = req.auth;
   const { unfollowId } = req.body;
 
   try {
     await User.findByIdAndUpdate(
-      userId,
-      { $pull: { following: unfollowId } },
+      unfollowId,
+      { $pull: { followers: userId } },
       { returnDocument: "after" }
     );
 
@@ -197,14 +199,14 @@ module.exports.removeFollowing = async (req, res, next) => {
   }
 };
 
-module.exports.removeFollower = async (req, res) => {
+module.exports.removeFollowing = async (req, res) => {
   const { id: userId } = req.auth;
   const { unfollowId } = req.body;
 
   try {
     const user = await User.findByIdAndUpdate(
-      unfollowId,
-      { $pull: { following: userId } },
+      userId,
+      { $pull: { following: unfollowId } },
       { returnDocument: "after" }
     )
       .populate("following", "_id name")
