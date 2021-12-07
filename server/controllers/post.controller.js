@@ -20,8 +20,8 @@ module.exports.getAllPosts = async (req, res) => {
 
 module.exports.getPost = async (req, res) => {
   try {
-    const post = req.post
-    return res.status(200).json(post);
+    const post = req.post;
+    return res.status(200).json({post});
   } catch (err) {
     return res.status(500).json({
       errors: {
@@ -74,9 +74,8 @@ module.exports.postById = async (req, res, next, postId) => {
 
 // has logged in user created the post which is going to be deleted.
 module.exports.hasUserCreatedPost = (req, res, next) => {
-  const sameIds = String(req.post.postedBy) === String(req.auth.id)
-  const hasLoggedInUserCreatedPost =
-    req.post && req.auth && sameIds;
+  const sameIds = String(req.post.postedBy) === String(req.auth.id);
+  const hasLoggedInUserCreatedPost = req.post && req.auth && sameIds;
 
   if (!hasLoggedInUserCreatedPost) {
     return res.status(403).json({
@@ -97,6 +96,27 @@ module.exports.deletePost = async (req, res) => {
     return res.status(200).json({
       msg: "Post deleted successfully",
     });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
+module.exports.updatePost = async (req, res, next) => {
+  const post = req.post;
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      post._id,
+      { ...req.body },
+      { returnDocument: "after" }
+    );
+
+    return res.status(200).json({ post: updatedPost });
   } catch (err) {
     return res.status(500).json({
       errors: {

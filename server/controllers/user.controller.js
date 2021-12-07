@@ -2,7 +2,9 @@ const User = require("../models/User");
 
 module.exports.userById = async (req, res, next, id) => {
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id)
+      .populate("following", "_id name")
+      .populate("followers", "_id name");
 
     if (!user) {
       return res.status(400).json({
@@ -26,8 +28,7 @@ module.exports.userById = async (req, res, next, id) => {
 
 module.exports.hasAuthorization = (req, res, next) => {
   const sameIds = String(req.profile._id) === String(req.auth.id);
-  const authorized =
-    req.profile && req.auth && sameIds;
+  const authorized = req.profile && req.auth && sameIds;
 
   if (!authorized) {
     return res.status(403).json({
@@ -87,11 +88,10 @@ module.exports.updateUser = async (req, res) => {
       { ...req.body },
       { returnDocument: "after" }
     );
-    
-    const {password, ...responseUser} = updatedUser._doc;
 
-    return res.status(200).json({user: responseUser});
+    const { password, ...responseUser } = updatedUser._doc;
 
+    return res.status(200).json({ user: responseUser });
   } catch (err) {
     return res.status(500).json({
       errors: {
@@ -102,14 +102,13 @@ module.exports.updateUser = async (req, res) => {
   }
 };
 
-
 module.exports.deleteUser = async (req, res) => {
   const { id: userId } = req.auth;
 
   try {
     await User.findByIdAndDelete(userId);
-    return res.status(200).json({msg: 'User successfully deleted.'})
-  } catch(err) {
+    return res.status(200).json({ msg: "User successfully deleted." });
+  } catch (err) {
     return res.status(500).json({
       errors: {
         msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
@@ -117,4 +116,100 @@ module.exports.deleteUser = async (req, res) => {
       },
     });
   }
-}
+};
+
+module.exports.addFollowing = async (req, res, next) => {
+  const { id: userId } = req.auth;
+  const { followId } = req.body;
+
+  try {
+    await User.findByIdAndUpdate(
+      userId,
+      { $push: { following: followId } },
+      { returnDocument: "after" }
+    );
+
+    next();
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
+module.exports.addFollower = async (req, res) => {
+  const { id: userId } = req.auth;
+  const { followId } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      followId,
+      { $push: { followers: userId } },
+      { returnDocument: "after" }
+    )
+      .populate("following", "_id name")
+      .populate("followers", "_id name");
+
+    user.password = undefined;
+
+    return res.status(200).json({ user });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
+module.exports.removeFollowing = async (req, res, next) => {
+  const { id: userId } = req.auth;
+  const { unfollowId } = req.body;
+
+  try {
+    await User.findByIdAndUpdate(
+      userId,
+      { $pull: { following: unfollowId } },
+      { returnDocument: "after" }
+    );
+
+    next();
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
+module.exports.removeFollower = async (req, res) => {
+  const { id: userId } = req.auth;
+  const { unfollowId } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      unfollowId,
+      { $pull: { following: userId } },
+      { returnDocument: "after" }
+    )
+      .populate("following", "_id name")
+      .populate("followers", "_id name");
+
+      user.password = undefined;
+
+      return res.status(200).json({ user });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};

@@ -32,6 +32,14 @@ router.delete(
   postController.deletePost
 );
 
+// Update a Post
+router.patch(
+  "/post/:postId",
+  authController.requireSignin,
+  postController.hasUserCreatedPost,
+  postController.updatePost
+);
+
 // if URL parameter has postId, then attach post to the req object
 router.param("postId", postController.postById);
 

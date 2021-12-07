@@ -456,14 +456,16 @@ HTTP 201 OK
 Content-Type: application/json
 
 {
-  "_id": "61a232b9689f0796a4a91f41",
-  "title": "First Post",
-  "description": "This is the first post.",
-  "imageURL": "Image Url",
-  "postedBy": "61a22c54c58e697583e4196a",
-  "createdAt": "2021-11-27T13:29:29.558Z",
-  "updatedAt": "2021-11-27T13:29:29.558Z",
-  "__v": 0
+  "post": {
+    "_id": "61a232b9689f0796a4a91f41",
+    "title": "First Post",
+    "description": "This is the first post.",
+    "imageURL": "Image Url",
+    "postedBy": "61a22c54c58e697583e4196a",
+    "createdAt": "2021-11-27T13:29:29.558Z",
+    "updatedAt": "2021-11-27T13:29:29.558Z",
+    "__v": 0
+  }
 }
 ```
 
@@ -568,3 +570,52 @@ HTTP 401 Unauthorized / 500 Internal Server Error
     }
 }
 ```
+
+## Update a Post
+
+**Request**
+
+```json
+PATCH api/post/:postId
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+{
+  "fieldsToUpdate": "value"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 200 OK
+Content-Type: application/json
+
+{
+  "post": {
+    "_id": "61a232b9689f0796a4a91f41",
+    "title": "First Post",
+    "description": "This is the first post.",
+    "imageURL": "Image Url",
+    "postedBy": "61a22c54c58e697583e4196a",
+    "createdAt": "2021-11-27T13:29:29.558Z",
+    "updatedAt": "2021-11-27T13:29:29.558Z",
+    "__v": 0
+  }
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}

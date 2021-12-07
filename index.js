@@ -5,6 +5,7 @@ const cors = require("cors");
 
 // Routes
 const authRoutes = require("./server/routes/auth");
+const userRoutes = require("./server/routes/user");
 const postRoutes = require("./server/routes/post");
 
 const app = express();
@@ -27,6 +28,7 @@ mongoose
 
 // Routes
 app.use("/api", authRoutes);
+app.use("/api", userRoutes);
 app.use("/api", postRoutes);
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
