@@ -17,6 +17,15 @@ module.exports.userById = async (req, res, next, id) => {
     req.profile = user;
     next();
   } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({
+        errors: {
+          msg: "We're sorry! Something went wrong",
+          serverMsg: "Please check the userId parameter",
+        },
+      });
+    }
+    
     return res.status(500).json({
       errors: {
         msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
@@ -201,9 +210,9 @@ module.exports.removeFollower = async (req, res) => {
       .populate("following", "_id name")
       .populate("followers", "_id name");
 
-      user.password = undefined;
+    user.password = undefined;
 
-      return res.status(200).json({ user });
+    return res.status(200).json({ user });
   } catch (err) {
     return res.status(500).json({
       errors: {
