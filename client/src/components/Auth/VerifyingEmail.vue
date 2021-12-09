@@ -2,8 +2,8 @@
   <div class="custom-center ve-container">
     <template v-if="err">
       <div class="title error">
-      Failed to confirm email, please try again
-    </div>
+        Failed to confirm email, please try again
+      </div>
     </template>
     <template v-else>
       <div class="lds-ellipsis">
@@ -33,9 +33,9 @@ export default {
         const res = await socially.patch("/user/confirm", {
           token: this.$route.params.token,
         });
-        console.log(res.status);
-        if(res.status === 200) {
-          this.$router.push("/")
+        if (res.status === 200) {
+          window.localStorage.removeItem("JWT");
+          this.$router.push("/");
         }
       } catch (error) {
         this.err = true;

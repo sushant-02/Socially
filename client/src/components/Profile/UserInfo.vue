@@ -4,17 +4,24 @@
       <figure class="profileImgContainer">
         <img class="profileImg" src="../../assets/profileImage.png" />
       </figure>
-      <div class="details">
-        <h1
-          class="title is-size-4-desktop is-size-5-touch text-truncate"
-          @click="toggleTruncate"
-        >
+      <div class="details mt-2">
+        <h1 class="title is-size-4-desktop is-size-5-touch text-truncate" @click="toggleTruncate">
           {{ user.name }}
         </h1>
-        <p class="subtitle text-truncate" @click="toggleTruncate">
+        <p class="subtitle text-truncate is-italic" @click="toggleTruncate">
           {{ user.email }}
         </p>
-          <time datetime="2016-1-1" class="is-size-7">{{format_date(user.createdAt)}}</time>
+        <p class="text-truncate" @click="toggleTruncate">
+          <span class="has-text-weight-bold">{{ user.followers.length }}</span>
+          &nbsp;
+          <span class="has-text-weight-semibold">Followers</span>
+        </p>
+        <p class="text-truncate" @click="toggleTruncate">
+          <span class="has-text-weight-bold">{{ user.following.length }}</span>
+          &nbsp;
+          <span class="has-text-weight-semibold">Following</span>
+        </p>
+        <!-- <time datetime="2016-1-1" class="is-size-7">{{format_date(user.createdAt)}}</time> -->
       </div>
     </template>
     <template v-else>
