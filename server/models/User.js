@@ -23,6 +23,10 @@ const userSchema = new Schema(
     },
     bio: {
       type: String,
+      trim: true
+    },
+    profilePhoto: {
+      type: String,
     },
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
