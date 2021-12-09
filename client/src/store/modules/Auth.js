@@ -35,11 +35,7 @@ const actions = {
   },
   async fetchUser({ commit }) {
     try {
-      const res = await socially.get("/user", {
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
-        },
-      });
+      const res = await socially.get("/user");
       commit("updateUser", res.data.user);
     } catch (error) {
       console.log(error);

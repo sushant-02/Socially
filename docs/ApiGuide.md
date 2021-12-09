@@ -224,7 +224,8 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 
 ## Reset Password
 
-Reset password has two routes - 
+Reset password has two routes -
+
 - First to send user the link to reset password.
 - Second to update the user password.
 
@@ -247,8 +248,8 @@ Content-Type: application/json
 HTTP 200 OK
 Content-Type: application/json
 
-{ 
-  "msg": "Password reset email sent!" 
+{
+  "msg": "Password reset email sent!"
 }
 ```
 
@@ -271,8 +272,8 @@ Content-Type: application/json
 HTTP 200 OK
 Content-Type: application/json
 
-{ 
-  "msg": "Password changed successfully!" 
+{
+  "msg": "Password changed successfully!"
 }
 ```
 
@@ -292,6 +293,7 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 ## Update User
 
 **Request**
+
 ```json
 PATCH api/user/:userId
 Accept: application/json
@@ -340,6 +342,7 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 ## Delete User
 
 **Request**
+
 ```json
 DELETE api/user/:userId
 Accept: application/json
@@ -725,3 +728,4 @@ HTTP 401 Unauthorized / 500 Internal Server Error
         "serverMsg": "This is an optional response, received only when 500 error occurs."
     }
 }
+```

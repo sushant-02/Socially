@@ -11,11 +11,7 @@ const getters = {
 const actions = {
   async fetchPosts({ commit }) {
     try {
-      const res = await socially.get("/posts", {
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
-        },
-      });
+      const res = await socially.get("/posts");
       commit("setPosts", res.data.posts);
     } catch (error) {
       console.log(error);

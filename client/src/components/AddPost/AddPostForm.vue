@@ -92,13 +92,7 @@ export default {
       this.loadingUser = true;
       try {
         const imageURL = await this.cloudinaryUpload();
-
-        const config = {
-          headers: {
-            "Authorization": `Bearer ${window.localStorage.getItem("JWT")}`
-          }
-        }
-        await socially.post("/post/new", { title: this.title, description: this.description, imageURL }, config)
+        await socially.post("/post/new", { title: this.title, description: this.description, imageURL })
         toast.success("Post added successfully")
       } catch (error) {
         if(error.response.status === 400)

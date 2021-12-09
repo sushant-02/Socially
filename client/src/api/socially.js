@@ -9,4 +9,7 @@ if (process.env.NODE_ENV === "production") {
 
 export default axios.create({
   baseURL: URL,
+  headers: {
+    Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
+  }
 });
