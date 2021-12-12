@@ -41,6 +41,16 @@ const actions = {
       console.log(error);
     }
   },
+  async updateUserInfo({commit}, usesrInfo) {
+    try {
+      const res = await socially.patch(`/user/${state.user._id}`, usesrInfo);
+      toast.success("User information updated successfully.")
+      commit("updateUser", res.data.user);
+    } catch (error) {
+      toast.error(error.response.data.errors.msg)
+      console.log(error);
+    }
+  }
 };
 
 const mutations = {

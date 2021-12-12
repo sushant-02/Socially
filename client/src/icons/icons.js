@@ -15,7 +15,8 @@ import {
   faGlobeAmericas,
   faTimes,
   faChevronCircleDown,
-  faSignOutAlt
+  faSignOutAlt,
+  faEdit
 } from "@fortawesome/free-solid-svg-icons";
 
 export const fontAwesomeIcons = {
@@ -35,5 +36,6 @@ export const fontAwesomeIcons = {
   faGlobeAmericas,
   faTimes,
   faChevronCircleDown,
-  faSignOutAlt
+  faSignOutAlt,
+  faEdit
 }
