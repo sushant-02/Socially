@@ -1,5 +1,5 @@
 <template>
-  <div class="container profile-container columns mt-6">
+  <div class="container profile-container columns mt-5">
     <div class="profileinfoContainer column is-one-third mb-6">
       <UserInfo />
     </div>

@@ -6,12 +6,19 @@ $primary: #1352AC;
 // Bulma Import
 @import '~bulma';
 
+// Cropper CSS Import
+// @import "cropperjs/dist/cropper.css";
+
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
+}
+
 .custom-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 .socially-ly {
   color: #41d1af;

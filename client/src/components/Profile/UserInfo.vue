@@ -5,7 +5,7 @@
         <FontAwesomeIcon icon="edit" class="fas fa-lg" />
       </span>
       <figure class="profileImgContainer">
-        <img class="profileImg" src="../../assets/profileImage.png" />
+        <img class="profileImg" :src="user.profilePhoto" />
       </figure>
       <div class="details mt-2">
         <h1
@@ -36,45 +36,7 @@
     </template>
 
     <template v-if="edit">
-      <h1 class="is-size-4 mb-3">Update Profile</h1>
-      <span class="icon is-medium mr-4 edit-icon is-clickable" @click="edit = false">
-        <FontAwesomeIcon icon="times" class="fas fa-lg" />
-      </span>
-      <form @submit="onFormSubmit" class="form mt-3">
-        <div class="field">
-          <label class="label has-text-grey is-size-6-touch">Name</label>
-          <div class="control">
-            <input
-              v-model="name"
-              class="input"
-              type="text"
-              placeholder="Enter name here"
-              required
-            />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label has-text-grey is-size-6-touch">Bio</label>
-          <div class="control">
-            <textarea
-              v-model="bio"
-              class="textarea has-fixed-size"
-              placeholder="Tell something about you"
-            ></textarea>
-          </div>
-        </div>
-        <div class="field mt-5">
-          <p class="control">
-            <button
-              type="submit"
-              :class="{ 'is-loading': isLoading }"
-              class="button is-medium is-fullwidth update-button"
-            >
-              <p class="is-size-5 is-size-6-touch">Update Profile</p>
-            </button>
-          </p>
-        </div>
-      </form>
+      <UpdateProfileForm :closeForm="closeForm" />
     </template>
   </div>
 </template>
@@ -82,16 +44,18 @@
 <script>
 import { mapGetters } from "vuex";
 import { timeString } from "../../utils/timeAgo";
+import UpdateProfileForm from "./UpdateProfileForm.vue";
+
 
 export default {
   name: "User Info",
+  components: {
+    UpdateProfileForm
+  },
   data() {
     return {
       user: this.getUser,
       edit: false,
-      name: "",
-      bio: "",
-      isLoading: false,
     };
   },
   methods: {
@@ -101,17 +65,10 @@ export default {
     format_date(value) {
       return timeString(value);
     },
-    async onFormSubmit(e) {
-      e.preventDefault();
-      this.isLoading = true;
-
-      this.$store.dispatch("updateUserInfo", {name: this.name, bio: this.bio})
-      .then(() => {
-        this.user = this.$store.getters.getUser;
-        this.isLoading = false;
-        this.edit = false;
-      })
-    }
+    closeForm() {
+      this.user = this.$store.getters.getUser;
+      this.edit = false;
+    },
   },
   computed: {
     ...mapGetters(["getUser"]),
@@ -131,6 +88,8 @@ export default {
   width: 100%;
   flex-direction: column;
   position: relative;
+  // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  // border-radius: 10px;
 }
 .edit-icon {
   position: absolute;

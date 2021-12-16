@@ -41,9 +41,9 @@ const actions = {
       console.log(error);
     }
   },
-  async updateUserInfo({commit}, usesrInfo) {
+  async updateUserInfo({commit}, userInfo) {
     try {
-      const res = await socially.patch(`/user/${state.user._id}`, usesrInfo);
+      const res = await socially.patch(`/user/${state.user._id}`, userInfo);
       toast.success("User information updated successfully.")
       commit("updateUser", res.data.user);
     } catch (error) {
