@@ -74,18 +74,9 @@ import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import axios from "axios";
 
-import placeholderImg from "../../assets/profileImage.png"
-
 export default {
   name: "Profile Update Form",
-  data() {
-    return {
-      placeholderImg: placeholderImg,
-    };
-  },
   props: ['closeForm'],
-  methods: {
-  },
   setup(props) {
     const imageInput = ref(null);
     const selectedFile = ref(null);
@@ -96,6 +87,7 @@ export default {
     const store = useStore();
     const name = ref(store.getters.getUser.name);
     const bio = ref(store.getters.getUser.bio);
+    const placeholderImg = store.getters.getUser.profilePhoto;
     const isLoading = ref(false);
 
     const reader = new FileReader();
@@ -194,6 +186,7 @@ export default {
     return {
       name, 
       bio,
+      placeholderImg,
       isLoading,
       imageInput,
       selectedFile,

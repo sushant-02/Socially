@@ -27,6 +27,7 @@ const userSchema = new Schema(
     },
     profilePhoto: {
       type: String,
+      default: "https://res.cloudinary.com/dszatzj4a/image/upload/v1639669486/socially/wyew5r3kmmdjmdqk1aqg.webp"
     },
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
