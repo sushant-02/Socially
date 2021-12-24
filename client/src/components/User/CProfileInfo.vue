@@ -9,7 +9,7 @@
           class="title is-size-4-desktop is-size-5-touch text-truncate"
           @click="toggleTruncate"
         >
-          {{user.name}}
+          {{ user.name }}
         </h1>
         <p
           class="subtitle has-text-grey is-size-6-desktop is-size-7-touch text-truncate"
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import socially from "../../api/socially"
 import pli from "../../assets/onlineConnection.svg";
 
 export default {
@@ -79,14 +79,18 @@ export default {
     toggleTruncate(e) {
       e.target.classList.toggle("text-truncate");
     },
-  },
-  computed: {
-    ...mapGetters(["getUser"]),
+    async fetchUserById() {
+      try {
+        const res = await socially.get(`/user/${this.$route.params.id}`);
+        this.user = res.data.user;
+        console.log(this.user);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   created() {
-    this.$store.dispatch("fetchUseById", this.$route.params.id).then(() => {
-      this.user = this.getUser;
-    });
+    this.fetchUserById();
   },
 };
 </script>

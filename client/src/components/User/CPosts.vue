@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import socially from "../../api/socially"
 import CPostCard from "./CPostCard.vue";
 
 export default {
@@ -20,13 +20,18 @@ export default {
       posts: [],
     };
   },
-  computed: {
-    ...mapGetters(["getPosts"]),
+  methods: {
+    async fetchUserById() {
+      try {
+        const res = await socially.get(`/posts/${this.$route.params.id}`);
+        this.posts = res.data.posts;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   mounted() {
-    this.$store.dispatch("fetchPosts").then(() => {
-      this.posts = this.getPosts;
-    });
+    this.fetchUserById();
   },
 };
 </script>
