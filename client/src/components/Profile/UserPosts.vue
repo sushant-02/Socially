@@ -7,36 +7,34 @@
     </div>
     <template v-else>
       <h1>NO POSTS</h1>
-    </template> 
+    </template>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from "vuex";
 import PostCard from "./PostCard.vue";
 
 export default {
   name: "UserPosts",
   components: {
-    PostCard
+    PostCard,
   },
   data() {
     return {
-      posts: []
-    }
+      posts: [],
+    };
   },
-  methods: {
-  },
+  methods: {},
   computed: {
-    ...mapGetters(["getPosts"])
+    ...mapGetters(["getPosts"]),
   },
   mounted() {
-    this.$store.dispatch("fetchPosts")
-    .then(() => {
-      this.posts = this.getPosts
-    })
-  }
-}
+    this.$store.dispatch("fetchPosts").then(() => {
+      this.posts = this.getPosts;
+    });
+  },
+};
 </script>
 
 <style>

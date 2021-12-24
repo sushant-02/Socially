@@ -41,6 +41,14 @@ const actions = {
       console.log(error);
     }
   },
+  async fetchUseById({ commit }, userId) {
+    try {
+      const res = await socially.get(`/user/${userId}`);
+      commit("updateUser", res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  },
   async updateUserInfo({commit}, userInfo) {
     try {
       const res = await socially.patch(`/user/${state.user._id}`, userInfo);
