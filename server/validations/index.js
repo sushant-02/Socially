@@ -28,10 +28,8 @@ const userSigninValidator = [
 ];
 
 const confirmUserValidator = [
-  body("token")
-  .notEmpty()
-  .withMessage("Token not found.")
-]
+  body("token").notEmpty().withMessage("Token not found."),
+];
 
 const resetPasswordFormValidator = [
   body("email")
@@ -39,17 +37,43 @@ const resetPasswordFormValidator = [
     .withMessage("Email is required.")
     .isEmail()
     .withMessage("Email is not valid."),
-]
+];
 
 const resetPasswordValidator = [
-  body("token")
-  .notEmpty()
-  .withMessage("Token not found."),
+  body("token").notEmpty().withMessage("Token not found."),
 
-  body("newPassword")
-  .notEmpty()
-  .withMessage("New password is required")
-]
+  body("newPassword").notEmpty().withMessage("New password is required"),
+];
+
+// USER VALIDATIONS
+
+const updateUserValidator = (req, res, next) => {
+  // Check if req.body is empty
+  // ref - https://www.samanthaming.com/tidbits/94-how-to-check-if-object-is-empty/
+  if (
+    !req.body ||
+    (Object.keys(req.body).length === 0 && req.body.constructor === Object)
+  ) {
+    return res.status(400).json({
+      errors: {
+        msg: "Please provide user data to update.",
+      },
+    });
+  }
+
+  // Check if req.body has password
+  const { password } = req.body;
+
+  if (password) {
+    return res.status(400).json({
+      errors: {
+        msg: "Please call the password update route to update user password.",
+      },
+    });
+  }
+
+  next();
+};
 
 // POST VALIDATIONS
 
@@ -76,5 +100,6 @@ module.exports = {
   confirmUserValidator,
   resetPasswordFormValidator,
   resetPasswordValidator,
+  updateUserValidator,
   createPostValidator,
 };
