@@ -29,9 +29,9 @@ export default {
   margin: 0;
   // overflow: hidden;
 }
-.profileinfoContainer {
-  border-right: 1px solid black;
-}
+// .profileinfoContainer {
+//   border-right: 1px solid black;
+// }
 
 .userpostsContainer {
   width: 100%;
@@ -45,9 +45,9 @@ export default {
   height: 0;
 }
 
-@media only screen and (max-width: 800px) {
-  .profileinfoContainer {
-    border-right: none;
-  }
-}
+// @media only screen and (max-width: 800px) {
+//   .profileinfoContainer {
+//     border-right: none;
+//   }
+// }
 </style>

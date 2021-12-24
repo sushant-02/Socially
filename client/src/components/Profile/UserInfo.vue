@@ -1,5 +1,5 @@
 <template>
-  <div class="profileinfo custom-center">
+  <div class="profileinfoCt custom-center">
     <template v-if="user && !edit">
       <span class="icon is-medium mr-4 edit-icon is-clickable" @click="edit = true">
         <FontAwesomeIcon icon="edit" class="fas fa-lg" />
@@ -84,12 +84,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.profileinfo {
+.profileinfoCt {
   width: 100%;
   flex-direction: column;
   position: relative;
-  // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  // border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 10px;
+  padding: 1rem;
 }
 .edit-icon {
   position: absolute;
