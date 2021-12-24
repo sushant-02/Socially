@@ -4,6 +4,9 @@ const router = express.Router();
 const authController = require("../controllers/auth.controller");
 const userController = require("../controllers/user.controller");
 
+// Validations
+const validator = require("../validations");
+
 // Get signedIn User
 router.get("/user", authController.requireSignin, userController.getUser);
 
@@ -17,10 +20,10 @@ router.patch(
 
 // Unfollow a User
 router.patch(
-    "/user/unfollow",
-    authController.requireSignin,
-    userController.removeFollower,
-    userController.removeFollowing
+  "/user/unfollow",
+  authController.requireSignin,
+  userController.removeFollower,
+  userController.removeFollowing
 );
 
 // Get any user by ID
@@ -36,18 +39,11 @@ router.patch(
   "/user/:userId",
   authController.requireSignin,
   userController.userById,
+  validator.updateUserValidator,
   userController.updateUser
 );
 
 // Delete a User
-router.delete(
-  "/user/:userId",
-  authController.requireSignin,
-  userController.userById,
-  userController.deleteUser
-);
-
-// // if URL parameter has userId, then first userById is executed and it attaches user to the req object
-// router.param("userId", userController.userById);
+router.delete("/user", authController.requireSignin, userController.deleteUser);
 
 module.exports = router;

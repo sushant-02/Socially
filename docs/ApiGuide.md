@@ -344,7 +344,7 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 **Request**
 
 ```json
-DELETE api/user/:userId
+DELETE api/user
 Accept: application/json
 Content-Type: application/json
 headers: {
