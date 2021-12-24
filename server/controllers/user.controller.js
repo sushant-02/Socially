@@ -125,7 +125,16 @@ module.exports.deleteUser = async (req, res) => {
   const { id: userId } = req.auth;
 
   try {
-    await User.findByIdAndDelete(userId);
+    const user = await User.findByIdAndDelete(userId);
+
+    if (!user) {
+      return res.status(400).json({
+        errors: {
+          msg: "User not found or is already deleted.",
+        },
+      });
+    }
+
     return res.status(200).json({ msg: "User successfully deleted." });
   } catch (err) {
     return res.status(500).json({

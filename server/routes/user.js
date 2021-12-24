@@ -44,14 +44,6 @@ router.patch(
 );
 
 // Delete a User
-router.delete(
-  "/user/:userId",
-  authController.requireSignin,
-  userController.userById,
-  userController.deleteUser
-);
-
-// // if URL parameter has userId, then first userById is executed and it attaches user to the req object
-// router.param("userId", userController.userById);
+router.delete("/user", authController.requireSignin, userController.deleteUser);
 
 module.exports = router;
