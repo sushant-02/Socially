@@ -18,6 +18,23 @@ module.exports.getAllPosts = async (req, res) => {
   }
 };
 
+// Get all Posts by a User
+
+module.exports.getAllUserPosts = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const posts = await Post.find({ postedBy: userId });
+    return res.status(200).send({ posts });
+  } catch (err) {
+    return res.status(500).json({
+      errors: {
+        msg: "We're sorry! The server encountered an internal error and was unable to complete the request",
+        serverMsg: err.message,
+      },
+    });
+  }
+};
+
 module.exports.getPost = async (req, res) => {
   try {
     const post = req.post;

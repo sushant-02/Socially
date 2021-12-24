@@ -9,6 +9,13 @@ const router = express.Router();
 // Get all Posts
 router.get("/posts", authController.requireSignin, postController.getAllPosts);
 
+// Get all Posts by a User
+router.get(
+  "/posts/:userId",
+  authController.requireSignin,
+  postController.getAllUserPosts
+);
+
 // Like a Post
 router.patch(
   "/post/like",
