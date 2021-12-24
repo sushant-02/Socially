@@ -75,6 +75,14 @@ const updateUserValidator = (req, res, next) => {
   next();
 };
 
+const addFollowerValidator = [
+  body("followId").notEmpty().withMessage("Follow ID is required"),
+];
+
+const removeFollowingValidator = [
+  body("unfollowId").notEmpty().withMessage("Unfollow ID is required"),
+];
+
 // POST VALIDATIONS
 
 const createPostValidator = [
@@ -101,5 +109,7 @@ module.exports = {
   resetPasswordFormValidator,
   resetPasswordValidator,
   updateUserValidator,
+  addFollowerValidator,
+  removeFollowingValidator,
   createPostValidator,
 };

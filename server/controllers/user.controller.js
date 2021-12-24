@@ -1,5 +1,7 @@
 const User = require("../models/User");
 
+const { validationResult } = require("express-validator");
+
 module.exports.userById = async (req, res, next) => {
   const { userId } = req.params;
 
@@ -147,15 +149,27 @@ module.exports.deleteUser = async (req, res) => {
 };
 
 module.exports.addFollower = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // Only send the first error message
+    return res.status(400).json({ errors: errors.array()[0] });
+  }
+
   const { id: userId } = req.auth;
   const { followId } = req.body;
 
   try {
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       followId,
       { $push: { followers: userId } },
       { returnDocument: "after" }
     );
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ errors: { msg: "User with given follow ID was not found." } });
+    }
 
     next();
   } catch (err) {
@@ -195,6 +209,12 @@ module.exports.addFollowing = async (req, res) => {
 };
 
 module.exports.removeFollower = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // Only send the first error message
+    return res.status(400).json({ errors: errors.array()[0] });
+  }
+
   const { id: userId } = req.auth;
   const { unfollowId } = req.body;
 
@@ -229,7 +249,7 @@ module.exports.removeFollowing = async (req, res) => {
       .populate("following", "_id name")
       .populate("followers", "_id name");
 
-    user.password = undefined;
+    user.password = undefined; // This will not send password to the response
 
     return res.status(200).json({ user });
   } catch (err) {

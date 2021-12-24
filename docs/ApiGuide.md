@@ -437,7 +437,7 @@ HTTP 400 Bad Request / 401 Unauthorized / 500 Internal Server Error
 **Request**
 
 ```json
-PATCH api/user/follow
+PATCH api/user/unfollow
 Accept: application/json
 Content-Type: application/json
 headers: {
