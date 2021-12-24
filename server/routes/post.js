@@ -9,10 +9,25 @@ const router = express.Router();
 // Get all Posts
 router.get("/posts", authController.requireSignin, postController.getAllPosts);
 
+// Like a Post
+router.patch(
+  "/post/like",
+  authController.requireSignin,
+  postController.likePost
+);
+
+// Unlike a Post
+router.patch(
+  "/post/unlike",
+  authController.requireSignin,
+  postController.unlikePost
+);
+
 // Get a Post
 router.get(
   "/post/:postId",
   authController.requireSignin,
+  postController.postById,
   postController.getPost
 );
 
@@ -28,6 +43,7 @@ router.post(
 router.delete(
   "/post/:postId",
   authController.requireSignin,
+  postController.postById,
   postController.hasUserCreatedPost,
   postController.deletePost
 );
@@ -36,25 +52,9 @@ router.delete(
 router.patch(
   "/post/:postId",
   authController.requireSignin,
+  postController.postById,
   postController.hasUserCreatedPost,
   postController.updatePost
 );
-
-// Like a Post
-router.patch(
-  "/post/like",
-  authController.requireSignin,
-  postController.likePost
-);
-
-// Unlike a Post
-router.patch(
-  "/post/unlike",
-  authController.requireSignin,
-  postController.unlikePost
-);
-
-// if URL parameter has postId, then attach post to the req object
-router.param("postId", postController.postById);
 
 module.exports = router;

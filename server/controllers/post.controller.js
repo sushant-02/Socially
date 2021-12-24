@@ -56,7 +56,9 @@ module.exports.createPost = async (req, res) => {
   }
 };
 
-module.exports.postById = async (req, res, next, postId) => {
+module.exports.postById = async (req, res, next) => {
+  const { postId } = req.params;
+
   try {
     const post = await Post.findById(postId);
     req.post = post;
