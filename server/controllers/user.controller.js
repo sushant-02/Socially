@@ -72,6 +72,14 @@ module.exports.getUser = async (req, res) => {
 
   try {
     const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({
+        errors: {
+          msg: "Sorry, we could not find a user this token",
+        },
+      });
+    }
+
     const { password, ...responseUser } = user._doc;
 
     return res.status(200).json({ user: responseUser });
