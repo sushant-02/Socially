@@ -5,8 +5,7 @@ Frontend Deployed Link: [here](https://socially-web.netlify.app)
 Backend Deployed Link: [here](https://socially-webapp.herokuapp.com)
 
 # Introduction
-
-Some description about socially.
+Add some description about socially.
 
 # Installation Guide
 
