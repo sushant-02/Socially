@@ -14,6 +14,7 @@ router.get("/user", authController.requireSignin, userController.getUser);
 router.patch(
   "/user/follow",
   authController.requireSignin,
+  validator.addFollowerValidator,
   userController.addFollower,
   userController.addFollowing
 );
@@ -22,6 +23,7 @@ router.patch(
 router.patch(
   "/user/unfollow",
   authController.requireSignin,
+  validator.removeFollowingValidator,
   userController.removeFollower,
   userController.removeFollowing
 );

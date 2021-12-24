@@ -437,7 +437,7 @@ HTTP 400 Bad Request / 401 Unauthorized / 500 Internal Server Error
 **Request**
 
 ```json
-PATCH api/user/follow
+PATCH api/user/unfollow
 Accept: application/json
 Content-Type: application/json
 headers: {
@@ -712,6 +712,108 @@ Content-Type: application/json
     "postedBy": "61a22c54c58e697583e4196a",
     "createdAt": "2021-11-27T13:29:29.558Z",
     "updatedAt": "2021-11-27T13:29:29.558Z",
+    "__v": 0
+  }
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
+
+## Like a Post
+
+**Request**
+
+```json
+PATCH api/post/like
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+{
+  "postId": "Id of Post to like (61c5cf05b0d41b5af5579be8)"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 200 OK
+Content-Type: application/json
+
+{
+  "post": {
+    "_id": "61c5cf05b0d41b5af5579be8",
+    "title": "Title 1",
+    "description": "Description 1",
+    "postedBy": "61c5c46fd98352358b0c908b",
+    "likes": [
+      "61c5c485d98352358b0c908e"
+    ],
+    "createdAt": "2021-12-24T13:45:41.121Z",
+    "updatedAt": "2021-12-24T14:02:49.583Z",
+    "__v": 0
+  }
+}
+```
+
+**Failed Response**
+
+```json
+HTTP 401 Unauthorized / 500 Internal Server Error
+
+{
+    "errors": {
+        "msg": "An error message to show to client",
+        "serverMsg": "This is an optional response, received only when 500 error occurs."
+    }
+}
+```
+
+## Like a Post
+
+**Request**
+
+```json
+PATCH api/post/unlike
+Accept: application/json
+Content-Type: application/json
+headers: {
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWQxNTVkMTJjNzQyZWI1NDE0ODc5OSIsImlhdCI6MTYzNzY4NDYzMiwiZXhwIjoxNjQwMjc2NjMyfQ.3MoODHkKfYVQg__6G4rZ_QCzn2JEHnnPRYUQDmFLDkE"
+}
+
+{
+  "postId": "Id of Post to unlike (61c5cf05b0d41b5af5579be8)"
+}
+```
+
+**Successful Response**
+
+```json
+HTTP 200 OK
+Content-Type: application/json
+
+{
+  "post": {
+    "_id": "61c5cf05b0d41b5af5579be8",
+    "title": "Title 1",
+    "description": "Description 1",
+    "postedBy": "61c5c46fd98352358b0c908b",
+    "likes": [],
+    "createdAt": "2021-12-24T13:45:41.121Z",
+    "updatedAt": "2021-12-24T14:04:44.290Z",
     "__v": 0
   }
 }
