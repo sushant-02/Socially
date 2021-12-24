@@ -21,8 +21,11 @@
             v-model="description"
             class="textarea has-fixed-size"
             placeholder="Tell something about your post"
+            maxlength="200"
+            @keyup="onTextAreaChange"
             required
           ></textarea>
+          <span class="has-text-grey is-size-7 is-unselectable">{{chLeft}} / 200</span>
         </div>
       </div>
       <div id="file-postImage" class="field file has-name">
@@ -80,6 +83,7 @@ export default {
       image: "",
       imageName: "",
       previewSource: null,
+      chLeft: 0,
       loadingUser: false,
     };
   },
@@ -125,6 +129,9 @@ export default {
       console.log(res.data.secure_url);
       return res.data.secure_url;
     },
+    onTextAreaChange() {
+      this.chLeft = this.description.length
+    }
   },
   computed: mapGetters(["getUser"]),
 };
