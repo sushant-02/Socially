@@ -2,7 +2,7 @@
   <div class="profileinfoCt custom-center">
     <template v-if="user">
       <div class="profileImgContainer">
-        <img class="profileImg" :src="pli" alt="USER PROFILE" />
+        <img class="profileImg" :src="user.profilePhoto" alt="USER PROFILE" />
       </div>
       <div class="details">
         <h1
@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import socially from "../../api/socially"
 import pli from "../../assets/onlineConnection.svg";
 
 export default {
@@ -79,18 +78,13 @@ export default {
     toggleTruncate(e) {
       e.target.classList.toggle("text-truncate");
     },
-    async fetchUserById() {
-      try {
-        const res = await socially.get(`/user/${this.$route.params.id}`);
-        this.user = res.data.user;
-        console.log(this.user);
-      } catch (error) {
-        console.log(error);
-      }
-    },
   },
   created() {
-    this.fetchUserById();
+    this.$store.dispatch("fetchUserById", this.$route.params.id)
+    .then(() => {
+      this.user = this.$store.getters.getOtherUser;
+      console.log(this.user);
+    })
   },
 };
 </script>

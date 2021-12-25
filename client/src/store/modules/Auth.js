@@ -7,11 +7,13 @@ const toast = useToast();
 const state = {
   authflow: false,
   user: null,
+  otherUser: null
 };
 
 const getters = {
   getAuthflow: () => state.authflow,
   getUser: () => state.user,
+  getOtherUser: () => state.otherUser,
 };
 
 const actions = {
@@ -37,6 +39,14 @@ const actions = {
     try {
       const res = await socially.get("/user");
       commit("updateUser", res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async fetchUserById({ commit }, userId) {
+    try {
+      const res = await socially.get(`/user/${userId}`);
+      commit("updateOtherUser", res.data.user);
     } catch (error) {
       console.log(error);
     }
@@ -69,6 +79,9 @@ const mutations = {
   },
   updateUser: (state, user) => {
     state.user = user;
+  },
+  updateOtherUser: (state, otherUser) => {
+    state.otherUser = otherUser;
   },
   showErrMsg: (state, errmsg) => {
     state.user = null;

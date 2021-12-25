@@ -3,7 +3,7 @@
     <div class="custom-center">
       <CProfileInfo />
     </div>
-    <div class="cPostsContainer custom-center mt-5">
+    <div class="cPostsContainer custom-center mt-5 pb-5">
       <CPosts />
     </div>
   </div>
