@@ -7,6 +7,7 @@ import UserProfile from "../components/Profile/UserProfile";
 import ConfirmEmail from "../components/Auth/ConfirmEmail";
 import VerifyingEmail from "../components/Auth/VerifyingEmail";
 import ResetPassword from "../components/Auth/ResetPassword";
+import ConnectionProfile from "../components/User/ConnectionProfile"
 
 const routes = [
   {
@@ -23,6 +24,11 @@ const routes = [
         path: "/profile",
         name: "User Profile",
         component: UserProfile
+      },
+      {
+        path: "/user/:id",
+        name: "Connection Profile",
+        component: ConnectionProfile
       }
     ]
   },
@@ -55,7 +61,7 @@ const routes = [
     path: "/reset-password/:token",
     name: "Reset password new",
     component: ResetPassword
-  },
+  }
 ]
 
 const router = createRouter({

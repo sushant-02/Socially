@@ -76,8 +76,6 @@ export default {
   created() {
     this.$store.dispatch("fetchUser").then(() => {
       this.user = this.getUser;
-      this.name = this.user.name;
-      this.bio = this.user.bio;
     });
   },
 };
