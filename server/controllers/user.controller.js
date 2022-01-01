@@ -73,7 +73,9 @@ module.exports.getUser = async (req, res) => {
   const { id: userId } = req.auth;
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)
+      .populate("following", "_id name")
+      .populate("followers", "_id name");
     if (!user) {
       return res.status(400).json({
         errors: {
