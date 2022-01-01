@@ -50,7 +50,6 @@ const actions = {
   async fetchUserById({ commit }, userId) {
     try {
       const res = await socially.get(`/user/${userId}`);
-      console.log("FETCHBYID", res);
       commit("updateOtherUser", res.data.user);
     } catch (error) {
       console.log(error);

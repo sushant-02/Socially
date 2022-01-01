@@ -55,22 +55,21 @@
           class="title is-size-4-desktop is-size-5-touch text-truncate"
           @click="toggleTruncate"
         >
-          Username ashjdf a gsd fyuagr ya bvag sgfh
+          USERNAME
         </h1>
         <p
           class="subtitle has-text-grey is-size-6-desktop is-size-7-touch text-truncate"
           @click="toggleTruncate"
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          sagittis in enim et venenatis ligula.
+          NO BIO
         </p>
         <p class="text-truncate" @click="toggleTruncate">
-          <span class="has-text-weight-bold">2</span>
+          <span class="has-text-weight-bold">0</span>
           &nbsp;
           <span class="has-text-weight-semibold has-text-grey">Followers</span>
         </p>
         <p class="text-truncate" @click="toggleTruncate">
-          <span class="has-text-weight-bold">3</span>
+          <span class="has-text-weight-bold">0</span>
           &nbsp;
           <span class="has-text-weight-semibold has-text-grey">Following</span>
         </p>
@@ -111,32 +110,18 @@ export default {
       this.isLoading = true;
       this.$store.dispatch("followAUser", this.$route.params.id).then(() => {
         this.fetchUser(false, true);
-        // this.$store.dispatch("fetchUserById", this.$route.params.id).then(() => {
-        //   this.user = this.$store.getters.getOtherUser;
-        //   this.following = true;
-        //   this.isLoading = false;
-        // });
       });
     },
     unfollowUser() {
       this.isLoading = true;
       this.$store.dispatch("unfollowAUser", this.$route.params.id).then(() => {
         this.fetchUser(false, false);
-        // this.$store.dispatch("fetchUserById", this.$route.params.id).then(() => {
-        //   this.user = this.$store.getters.getOtherUser;
-        //   this.following = false;
-        //   this.isLoading = false;
-        // });
       });
     },
     checkFollowing() {
-      console.log("CHECKING FOLLOWING");
       const loginUser = this.$store.getters.getUser;
-      loginUser.following.map((following_id) => {
-        console.log("FID", following_id);
-        console.log("UID", this.user._id);
-        if (following_id === this.user._id) {
-          console.log("ID_MATCHED");
+      loginUser.following.map((flwing) => {
+        if (flwing._id === this.user._id) {
           this.following = true;
           return;
         }

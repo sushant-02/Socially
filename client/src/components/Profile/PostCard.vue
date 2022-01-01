@@ -2,14 +2,30 @@
   <div class="postCard mb-6">
     <img class="postImage" :src="post.imageURL" alt="Post" />
     <div class="postDetails">
-      <p class="title is-size-4-desktop is-size-5-touch">{{ post.title }}</p>
+      <!-- <p class="title is-size-4-desktop is-size-5-touch">{{ post.title }}</p>
       <p class="subtitle is-size-6-desktop is-size-7-touch">
         <time datetime="2016-1-1" class="is-size-7">{{
           format_date(post.createdAt)
         }}</time>
-      </p>
+      </p> -->
+      <div class="media mb-2">
+        <div class="media-left post-likes-container custom-center is-clickable">
+          <FontAwesomeIcon icon="heart" class="fas fa-lg like-heart" />
+          <p>{{ post.likes.length }}</p>
+        </div>
+        <div class="media-content">
+          <p class="title is-size-4-desktop is-size-5-touch">
+            {{ post.title }}
+          </p>
+          <p class="subtitle is-size-6-desktop is-size-7-touch">
+            <time datetime="2016-1-1" class="is-size-7">{{
+              format_date(post.createdAt)
+            }}</time>
+          </p>
+        </div>
+      </div>
       <div class="content postDescription">
-        {{post.description}}
+        {{ post.description }}
       </div>
     </div>
   </div>
@@ -31,7 +47,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .postCard {
   width: 100%;
   height: 400px;
@@ -71,6 +87,21 @@ export default {
   bottom: -5rem;
 }
 
+.like-heart {
+  color: #fb3958;
+}
+
+.post-likes-container {
+  width: 48px;
+  height: 48px;
+  align-self: center;
+  flex-direction: column;
+
+  & p {
+    font-size: 1rem;
+  }
+}
+
 @media only screen and (max-width: 1200px) {
   .postCard {
     height: 300px;
@@ -79,7 +110,15 @@ export default {
     height: 150px;
   }
   .postDescription {
-    font-size: .9rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .post-likes-container {
+    & p {
+      font-size: 0.8rem;
+    }
   }
 }
 </style>
