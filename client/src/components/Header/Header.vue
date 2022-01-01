@@ -98,8 +98,10 @@ export default {
       this.isDropwownActive = !this.isDropwownActive;
     },
     logout() {
-      window.localStorage.removeItem("JWT");
-      this.$router.push("/login");
+      this.$store.dispatch("logoutUser")
+      .then(() => {
+        this.$router.push("/login");
+      })
     },
   },
 };

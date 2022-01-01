@@ -27,9 +27,25 @@
           &nbsp;
           <span class="has-text-weight-semibold has-text-grey">Following</span>
         </p>
-        <button class="button follow-button mt-4">Follow</button>
+        <button
+          v-if="!following"
+          @click="followUser"
+          :class="{ 'is-loading': isLoading }"
+          class="button follow-button mt-4"
+        >
+          Follow
+        </button>
+        <button
+          v-else
+          @click="unfollowUser"
+          :class="{ 'is-loading': isLoading }"
+          class="button follow-button mt-4"
+        >
+          Unfollow
+        </button>
       </div>
     </template>
+
     <template v-else>
       <div class="profileImgContainer">
         <img class="profileImg" :src="pli" alt="USER PROFILE" />
@@ -58,7 +74,7 @@
           &nbsp;
           <span class="has-text-weight-semibold has-text-grey">Following</span>
         </p>
-        <button class="button follow-button mt-4">Follow</button>
+        <button class="button follow-button mt-4">Follow/Unfollow</button>
       </div>
     </template>
   </div>
@@ -72,19 +88,70 @@ export default {
     return {
       pli: pli,
       user: null,
+      following: null,
+      isLoading: false,
     };
   },
   methods: {
     toggleTruncate(e) {
       e.target.classList.toggle("text-truncate");
     },
+    fetchUser(checkFollow, isFollowing) {
+      this.$store.dispatch("fetchUserById", this.$route.params.id).then(() => {
+        this.user = this.$store.getters.getOtherUser;
+        if (checkFollow) {
+          this.checkFollowing();
+        } else {
+          this.following = isFollowing;
+          this.isLoading = false;
+        }
+      });
+    },
+    followUser() {
+      this.isLoading = true;
+      this.$store.dispatch("followAUser", this.$route.params.id).then(() => {
+        this.fetchUser(false, true);
+        // this.$store.dispatch("fetchUserById", this.$route.params.id).then(() => {
+        //   this.user = this.$store.getters.getOtherUser;
+        //   this.following = true;
+        //   this.isLoading = false;
+        // });
+      });
+    },
+    unfollowUser() {
+      this.isLoading = true;
+      this.$store.dispatch("unfollowAUser", this.$route.params.id).then(() => {
+        this.fetchUser(false, false);
+        // this.$store.dispatch("fetchUserById", this.$route.params.id).then(() => {
+        //   this.user = this.$store.getters.getOtherUser;
+        //   this.following = false;
+        //   this.isLoading = false;
+        // });
+      });
+    },
+    checkFollowing() {
+      console.log("CHECKING FOLLOWING");
+      const loginUser = this.$store.getters.getUser;
+      loginUser.following.map((following_id) => {
+        console.log("FID", following_id);
+        console.log("UID", this.user._id);
+        if (following_id === this.user._id) {
+          console.log("ID_MATCHED");
+          this.following = true;
+          return;
+        }
+      });
+    },
   },
   created() {
-    this.$store.dispatch("fetchUserById", this.$route.params.id)
-    .then(() => {
-      this.user = this.$store.getters.getOtherUser;
-      console.log(this.user);
-    })
+    if (!this.$store.getters.getUser) {
+      this.$store.dispatch("fetchUser").then(() => {
+        this.fetchUser(true);
+      });
+    } else {
+      this.fetchUser(true);
+    }
+    console.log("CREATED");
   },
 };
 </script>

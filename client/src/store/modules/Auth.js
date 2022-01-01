@@ -4,11 +4,15 @@ import router from "../../router/index";
 
 const toast = useToast();
 
-const state = {
-  authflow: false,
-  user: null,
-  otherUser: null
-};
+const getDefaultState = () => {
+  return {
+    authflow: false,
+    user: null,
+    otherUser: null
+  }
+}
+
+const state = getDefaultState();
 
 const getters = {
   getAuthflow: () => state.authflow,
@@ -46,6 +50,7 @@ const actions = {
   async fetchUserById({ commit }, userId) {
     try {
       const res = await socially.get(`/user/${userId}`);
+      console.log("FETCHBYID", res);
       commit("updateOtherUser", res.data.user);
     } catch (error) {
       console.log(error);
@@ -60,6 +65,26 @@ const actions = {
       toast.error(error.response.data.errors.msg)
       console.log(error);
     }
+  },
+  async followAUser({commit}, userId) {
+    try {
+      const res = await socially.patch("/user/follow", { "followId": userId });
+      commit("updateUser", res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async unfollowAUser({commit}, userId) {
+    try {
+      const res = await socially.patch("/user/unfollow", { "unfollowId": userId });
+      commit("updateUser", res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async logoutUser({commit}) {
+    window.localStorage.removeItem("JWT");
+    commit("resetState")
   }
 };
 
@@ -92,6 +117,9 @@ const mutations = {
     state.authflow = true;
     router.push("/confirm-email");
   },
+  resetState: () => {
+    Object.assign(state, getDefaultState());
+  }
 };
 
 export default {

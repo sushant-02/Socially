@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      posts: [],
+      posts: this.$store.getters.getPosts,
     };
   },
   methods: {},
@@ -30,9 +30,11 @@ export default {
     ...mapGetters(["getPosts"]),
   },
   mounted() {
-    this.$store.dispatch("fetchPosts").then(() => {
-      this.posts = this.getPosts;
-    });
+    if (this.$store.getters.getPosts.length === 0) {
+      this.$store.dispatch("fetchPosts").then(() => {
+        this.posts = this.getPosts;
+      });
+    }
   },
 };
 </script>

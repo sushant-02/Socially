@@ -13,13 +13,12 @@ import Header from "../components/Header/Header.vue";
 export default {
   components: { Header },
   name: "HomePage",
-  methods: {
-  },
+  methods: {},
   created() {
-    if(!window.localStorage.getItem("JWT")) {
+    if (!window.localStorage.getItem("JWT")) {
       this.$router.push("/login");
     }
-  }
+  },
 };
 </script>
 

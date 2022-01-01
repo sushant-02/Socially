@@ -1,7 +1,10 @@
 <template>
   <div class="profileinfoCt custom-center">
     <template v-if="user && !edit">
-      <span class="icon is-medium mr-4 edit-icon is-clickable" @click="edit = true">
+      <span
+        class="icon is-medium mr-4 edit-icon is-clickable"
+        @click="edit = true"
+      >
         <FontAwesomeIcon icon="edit" class="fas fa-lg" />
       </span>
       <figure class="profileImgContainer">
@@ -27,6 +30,9 @@
           &nbsp;
           <span class="has-text-weight-semibold has-text-grey">Following</span>
         </p>
+        <router-link to="/user/61b07d5b2e3b95cf4c77b74a">
+          GOTOUSER
+        </router-link>
         <!-- <time datetime="2016-1-1" class="is-size-7">{{format_date(user.createdAt)}}</time> -->
       </div>
     </template>
@@ -46,15 +52,14 @@ import { mapGetters } from "vuex";
 import { timeString } from "../../utils/timeAgo";
 import UpdateProfileForm from "./UpdateProfileForm.vue";
 
-
 export default {
   name: "User Info",
   components: {
-    UpdateProfileForm
+    UpdateProfileForm,
   },
   data() {
     return {
-      user: this.getUser,
+      user: this.$store.getters.getUser,
       edit: false,
     };
   },
@@ -74,9 +79,11 @@ export default {
     ...mapGetters(["getUser"]),
   },
   created() {
-    this.$store.dispatch("fetchUser").then(() => {
-      this.user = this.getUser;
-    });
+    if (!this.$store.getters.getUser) {
+      this.$store.dispatch("fetchUser").then(() => {
+        this.user = this.getUser;
+      });
+    }
   },
 };
 </script>

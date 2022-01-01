@@ -782,7 +782,7 @@ HTTP 401 Unauthorized / 500 Internal Server Error
 }
 ```
 
-## Like a Post
+## Unlike a Post
 
 **Request**
 
