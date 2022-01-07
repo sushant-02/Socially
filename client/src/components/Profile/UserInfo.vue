@@ -30,9 +30,16 @@
           &nbsp;
           <span class="has-text-weight-semibold has-text-grey">Following</span>
         </p>
-        <router-link to="/user/61b07d5b2e3b95cf4c77b74a">
+        <!-- <router-link to="/user/61b07d5b2e3b95cf4c77b74a">
           GOTOUSER
-        </router-link>
+        </router-link> -->
+        <button
+          @click="toggleModal"
+          class="button delete-user-button mt-4"
+          data-target="delete-user-modal"
+        >
+          Delete account
+        </button>
         <!-- <time datetime="2016-1-1" class="is-size-7">{{format_date(user.createdAt)}}</time> -->
       </div>
     </template>
@@ -44,6 +51,44 @@
     <template v-if="edit">
       <UpdateProfileForm :closeForm="closeForm" />
     </template>
+
+    <div id="delete-user-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title" style="color: #f74a4a">
+            Delete Account
+          </p>
+          <button
+            class="delete"
+            @click="toggleModal"
+            data-target="delete-user-modal"
+            aria-label="close"
+          ></button>
+        </header>
+        <section class="modal-card-body">
+          This action is irreversible. <br />
+          Are you sure you want to delete your account?
+        </section>
+        <footer class="modal-card-foot">
+          <button
+            class="button is-success"
+            @click="toggleModal"
+            data-target="delete-user-modal"
+          >
+            Cancel
+          </button>
+          <button
+            class="button delete-user-button"
+            :class="{ 'is-loading': isLoading }"
+            data-target="delete-user-modal"
+            @click="deleteUser"
+          >
+            Delete Account
+          </button>
+        </footer>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -61,6 +106,7 @@ export default {
     return {
       user: this.$store.getters.getUser,
       edit: false,
+      isLoading: false,
     };
   },
   methods: {
@@ -73,6 +119,18 @@ export default {
     closeForm() {
       this.user = this.$store.getters.getUser;
       this.edit = false;
+    },
+
+    toggleModal(e) {
+      const el = e.target.dataset.target;
+      document.getElementById(el).classList.toggle("is-active");
+    },
+    deleteUser(e) {
+      this.isLoading = true;
+      this.$store.dispatch("deleteUser").then(() => {
+        this.toggleModal(e);
+        this.isLoading = false;
+      });
     },
   },
   computed: {
@@ -124,9 +182,13 @@ export default {
     text-overflow: ellipsis;
   }
 }
-.update-button {
-  background-color: #41d1af !important;
+.delete-user-button {
+  background-color: #f74a4a !important;
   color: white !important;
+}
+
+.is-active {
+  display: block;
 }
 
 @media only screen and (max-width: 800px) {

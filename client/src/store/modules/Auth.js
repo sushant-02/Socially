@@ -8,9 +8,9 @@ const getDefaultState = () => {
   return {
     authflow: false,
     user: null,
-    otherUser: null
-  }
-}
+    otherUser: null,
+  };
+};
 
 const state = getDefaultState();
 
@@ -55,36 +55,49 @@ const actions = {
       console.log(error);
     }
   },
-  async updateUserInfo({commit}, userInfo) {
+  async updateUserInfo({ commit }, userInfo) {
     try {
       const res = await socially.patch(`/user/${state.user._id}`, userInfo);
-      toast.success("User information updated successfully.")
+      toast.success("User information updated successfully.");
       commit("updateUser", res.data.user);
     } catch (error) {
-      toast.error(error.response.data.errors.msg)
+      toast.error(error.response.data.errors.msg);
       console.log(error);
     }
   },
-  async followAUser({commit}, userId) {
+  async followAUser({ commit }, userId) {
     try {
-      const res = await socially.patch("/user/follow", { "followId": userId });
+      const res = await socially.patch("/user/follow", { followId: userId });
       commit("updateUser", res.data.user);
     } catch (error) {
       console.log(error);
     }
   },
-  async unfollowAUser({commit}, userId) {
+  async unfollowAUser({ commit }, userId) {
     try {
-      const res = await socially.patch("/user/unfollow", { "unfollowId": userId });
+      const res = await socially.patch("/user/unfollow", {
+        unfollowId: userId,
+      });
       commit("updateUser", res.data.user);
     } catch (error) {
       console.log(error);
     }
   },
-  async logoutUser({commit}) {
+  async logoutUser({ commit }) {
     window.localStorage.removeItem("JWT");
-    commit("resetState")
-  }
+    commit("resetState");
+  },
+  async deleteUser({ commit }) {
+    try {
+      await socially.delete("/user");
+      window.localStorage.removeItem("JWT");
+      commit("resetState");
+      toast.success("Account deleted successfully.");
+      router.push("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 const mutations = {
@@ -118,7 +131,7 @@ const mutations = {
   },
   resetState: () => {
     Object.assign(state, getDefaultState());
-  }
+  },
 };
 
 export default {

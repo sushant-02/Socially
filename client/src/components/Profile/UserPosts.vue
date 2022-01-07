@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import PostCard from "./PostCard.vue";
 
 export default {
@@ -25,16 +24,10 @@ export default {
       posts: this.$store.getters.getPosts,
     };
   },
-  methods: {},
-  computed: {
-    ...mapGetters(["getPosts"]),
-  },
   mounted() {
-    if (this.$store.getters.getPosts.length === 0) {
-      this.$store.dispatch("fetchPosts").then(() => {
-        this.posts = this.getPosts;
-      });
-    }
+    this.$store.dispatch("fetchPosts").then(() => {
+      this.posts = this.$store.getters.getPosts;
+    });
   },
 };
 </script>
